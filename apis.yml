@@ -69,6 +69,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/mavenir-byon-call-handling-openapi.yml
+  - type: Overlay
+    url: overlays/mavenir-byon-call-handling-overlay.yaml
   - type: Documentation
     url: https://github.com/camaraproject/WebRTC
   - type: APIReference
@@ -95,6 +97,8 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/mavenir-byon-racm-openapi.yml
+  - type: Overlay
+    url: overlays/mavenir-byon-racm-overlay.yaml
   - type: Documentation
     url: https://github.com/camaraproject/WebRTC
   - type: APIReference
@@ -130,6 +134,39 @@ apis:
   - type: Documentation
     url: https://www.mavenir.com/press-releases/mavenirs-cloud-native-business-support-system-suite-achieves-tm-forums-open-api-silver-certification/
 common:
+- type: DomainSecurity
+  url: security/mavenir-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/mavenir-agentic-access.yml
+- type: Authentication
+  url: authentication/mavenir-authentication.yml
+- type: Conventions
+  url: conventions/mavenir-conventions.yml
+- type: Idempotency
+  url: conventions/mavenir-conventions.yml
+- type: ErrorCatalog
+  url: errors/mavenir-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/mavenir-lifecycle.yml
+- type: Conformance
+  url: conformance/mavenir-conformance.yml
+- type: DataModel
+  url: data-model/mavenir-data-model.yml
+- type: Webhooks
+  url: asyncapi/mavenir-byon-events.yml
+- type: Packages
+  url: packages/mavenir-packages.yml
+- type: MCPServer
+  url: mcp/mavenir-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/mavenir-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Arazzo
+  name: Place and manage a 1-1 VVoIP call (Mavenir BYON)
+  url: arazzo/mavenir-byon-place-and-manage-call.yml
+- type: LLMsTxt
+  url: llms/mavenir-llms.txt
 - type: Website
   url: https://www.mavenir.com/
 - type: About
@@ -144,6 +181,14 @@ common:
   url: https://www.mavenir.com/contact-us/
 - type: SupportPortal
   url: https://support.mavenir.com/
+- type: Support
+  url: https://support.mavenir.com/
+- type: Blog
+  url: https://www.mavenir.com/newsroom/blog/
+- type: BlogRSS
+  url: https://www.mavenir.com/newsroom/blog/feed/
+- type: GitHubOrganization
+  url: https://github.com/mavenir
 - type: Privacy
   url: https://www.mavenir.com/data-privacy-notice/
 - type: TermsOfService

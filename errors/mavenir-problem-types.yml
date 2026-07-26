@@ -1,0 +1,118 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/mavenir-byon-call-handling-openapi.yml, openapi/mavenir-byon-racm-openapi.yml
+format: custom
+media_type: application/json
+note: >-
+  Mavenir publishes no error reference — there is no developer portal to search.
+  This catalog is derived entirely from the response components of the two
+  Mavenir-authored BYON OpenAPI definitions contributed to the CAMARA API Backlog.
+  Errors are NOT RFC 9457 application/problem+json; they use a custom envelope that
+  follows the CAMARA Commonalities error model. Every code string below appears
+  verbatim in a spec example.
+envelope:
+  schema: ErrorInfo
+  media_type: application/json
+  fields:
+  - name: status
+    type: integer
+    required: true
+    description: HTTP status code returned along with this error response
+  - name: code
+    type: string
+    required: true
+    description: Code given to this error
+  - name: message
+    type: string
+    required: true
+    description: Detailed error description
+problems:
+- status: 400
+  code: INVALID_ARGUMENT
+  title: Invalid input
+  example_message: 'Schema validation failed at  ...'
+  component: Generic400
+  sources:
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessions'
+  - 'openapi/mavenir-byon-racm-openapi.yml#POST /session'
+  - 'openapi/mavenir-byon-racm-openapi.yml#POST /push'
+- status: 401
+  code: UNAUTHENTICATED
+  title: Unauthorized
+  example_message: 'Authorization failed: ...'
+  component: Generic401
+  sources:
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#getSessionDetailsById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#deleteSessionById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessionStatus'
+  remediation: Present a valid HTTP Bearer access token issued by the operator auth server.
+- status: 403
+  code: PERMISSION_DENIED
+  title: Forbidden (RACM describes it as "Device not authorized")
+  example_message: 'Operation not allowed: ...'
+  component: Generic403
+  sources:
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessions'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#getSessionDetailsById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#deleteSessionById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessionStatus'
+  - 'openapi/mavenir-byon-racm-openapi.yml#POST /push'
+- status: 404
+  code: NOT_FOUND
+  title: Session not found
+  example_message: Session Id does not exist
+  component: SessionNotFound404 (call handling) / NotFound404 (RACM)
+  sources:
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#getSessionDetailsById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#deleteSessionById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessionStatus'
+  - 'openapi/mavenir-byon-racm-openapi.yml#DELETE /session/{sessionId}'
+  note: >-
+    In the RACM spec the NotFound404 component is wired to the 400 response of
+    DELETE /session/{sessionId} — carried verbatim from the source definition.
+  remediation: >-
+    Use the resourceUrl returned by session creation rather than constructing the
+    URL; the spec states this explicitly on both retrieve and delete.
+- status: 500
+  code: INTERNAL
+  title: Internal server error
+  example_message: 'Internal server error: ...'
+  component: Generic500
+  sources:
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessions'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#getSessionDetailsById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#deleteSessionById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessionStatus'
+- status: 501
+  code: NOT_IMPLEMENTED
+  title: Not Implemented
+  example_message: Service not implemented for the specified user device
+  component: Generic501
+  sources:
+  - openapi/mavenir-byon-call-handling-openapi.yml
+  - openapi/mavenir-byon-racm-openapi.yml
+  note: Declared as a reusable response component but not referenced by any operation.
+- status: 503
+  code: UNAVAILABLE
+  title: Service unavailable
+  example_message: Service unavailable
+  component: Generic503
+  sources:
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessions'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#getSessionDetailsById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#deleteSessionById'
+  - 'openapi/mavenir-byon-call-handling-openapi.yml#postSessionStatus'
+session_failure_states:
+  note: >-
+    Call failures are not HTTP errors — they are values of the SessionStatus
+    enum returned on the session resource and in status notifications. An agent
+    must treat these as terminal outcomes, not as transport errors.
+  values:
+  - Terminated
+  - SessionCancelled
+  - Declined
+  - Failed
+  - NoAnswer
+  - NotReachable
+  - Busy
+  source: 'openapi/mavenir-byon-call-handling-openapi.yml#/components/schemas/SessionStatus'

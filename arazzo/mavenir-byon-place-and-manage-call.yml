@@ -1,0 +1,141 @@
+arazzo: 1.0.1
+info:
+  title: Place and manage a 1-1 VVoIP call (Mavenir BYON)
+  version: 1.0.0
+  description: >-
+    Originate a one-to-one voice/video session on a Mavenir BYON call handling
+    deployment, read it back, drive it to Connected, then terminate it. Every
+    operationId is verified against
+    openapi/mavenir-byon-call-handling-openapi.yml. This workflow cannot be run
+    against Mavenir — the spec templates {apiRoot} with a http://localhost:9091
+    default, so it must be pointed at an operator's WebRTC Gateway deployment. The
+    companion RACM spec is not referenced as a source because it declares no
+    operationIds.
+sourceDescriptions:
+- name: byonCallHandling
+  url: ../openapi/mavenir-byon-call-handling-openapi.yml
+  type: openapi
+workflows:
+- workflowId: place-and-manage-vvoip-call
+  summary: Create a VVoIP session, check it, update its status, and end it.
+  description: >-
+    Requires a clientId already minted by the RACM registration flow and an HTTP
+    Bearer access token from the operator's auth server. transactionId is required
+    on every step. clientCorrelator makes step 1 safely retryable.
+  inputs:
+    type: object
+    required:
+    - clientId
+    - originatorAddress
+    - receiverAddress
+    - offerSdp
+    properties:
+      clientId:
+        type: string
+        description: Client Id assigned by the WebRTC Gateway during RACM registration.
+      originatorAddress:
+        type: string
+        description: 'Originator URI, e.g. tel:+911234567890'
+      receiverAddress:
+        type: string
+        description: 'Receiver URI, e.g. tel:+911234567891'
+      originatorName:
+        type: string
+      receiverName:
+        type: string
+      offerSdp:
+        type: string
+        description: Inline SDP offer (RFC 4566).
+      answerSdp:
+        type: string
+        description: Inline SDP answer used when moving the session to Connected.
+      clientCorrelator:
+        type: string
+        description: Client-generated UUID; the gateway returns it unaltered.
+  steps:
+  - stepId: create-session
+    description: Originate the 1-1 voice/video session with an SDP offer.
+    operationId: $sourceDescriptions.byonCallHandling.postSessions
+    parameters:
+    - name: transactionId
+      in: header
+      value: $inputs.clientCorrelator
+    - name: clientId
+      in: header
+      value: $inputs.clientId
+    requestBody:
+      contentType: application/json
+      payload:
+        originatorAddress: $inputs.originatorAddress
+        originatorName: $inputs.originatorName
+        receiverAddress: $inputs.receiverAddress
+        receiverName: $inputs.receiverName
+        offer:
+          sdp: $inputs.offerSdp
+        clientCorrelator: $inputs.clientCorrelator
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      resourceUrl: $response.body#/resourceUrl
+      status: $response.body#/status
+  - stepId: get-session
+    description: Read the session back. Use the resourceUrl from step 1 rather than building a URL.
+    operationId: $sourceDescriptions.byonCallHandling.getSessionDetailsById
+    parameters:
+    - name: transactionId
+      in: header
+      value: $inputs.clientCorrelator
+    - name: clientId
+      in: header
+      value: $inputs.clientId
+    - name: sessionId
+      in: path
+      value: $steps.create-session.outputs.resourceUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      currentStatus: $response.body#/status
+  - stepId: connect-session
+    description: >-
+      Move the session to Connected with the SDP answer (SIP responseCode 200).
+      Mirrors the exMT200 example in the spec.
+    operationId: $sourceDescriptions.byonCallHandling.postSessionStatus
+    parameters:
+    - name: transactionId
+      in: header
+      value: $inputs.clientCorrelator
+    - name: clientId
+      in: header
+      value: $inputs.clientId
+    - name: sessionId
+      in: path
+      value: $steps.create-session.outputs.resourceUrl
+    requestBody:
+      contentType: application/json
+      payload:
+        status: Connected
+        responseCode: 200
+        answer:
+          sdp: $inputs.answerSdp
+    successCriteria:
+    - condition: $statusCode == 200
+  - stepId: end-session
+    description: >-
+      Cancel, decline or terminate the session. SAFETY-CRITICAL — this drops a live
+      call. See agentic-access/mavenir-agentic-access.yml.
+    operationId: $sourceDescriptions.byonCallHandling.deleteSessionById
+    parameters:
+    - name: transactionId
+      in: header
+      value: $inputs.clientCorrelator
+    - name: clientId
+      in: header
+      value: $inputs.clientId
+    - name: sessionId
+      in: path
+      value: $steps.create-session.outputs.resourceUrl
+    successCriteria:
+    - condition: $statusCode == 204
+  outputs:
+    resourceUrl: $steps.create-session.outputs.resourceUrl
+    finalStatus: $steps.get-session.outputs.currentStatus

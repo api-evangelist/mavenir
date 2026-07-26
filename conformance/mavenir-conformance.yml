@@ -1,0 +1,117 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  openapi/mavenir-byon-call-handling-openapi.yml,
+  openapi/mavenir-byon-racm-openapi.yml, camaraproject GitHub artifacts,
+  mavenir.com press releases and product pages (probed 2026-07-25)
+summary: >-
+  Mavenir's standards posture is stronger than its developer posture. It holds
+  real, published TM Forum Open API conformance certification on the MDE BSS
+  (Silver 2022, Platinum 2023 with 20+ certified Open APIs) and it is a working
+  CAMARA participant with code-level maintainership, not a press-release member.
+  What it does NOT have is any conformance evidence you can exercise: the certified
+  TMF interfaces ship only inside licensed operator deployments, and the two
+  Mavenir-authored OpenAPI definitions are standards-track contributions with no
+  hosted endpoint. Where a standard is asserted below on spec evidence, that
+  evidence comes from those two contributed definitions.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: 'both harvested specs declare openapi: 3.0.0 with paths and components'
+- id: oauth2
+  conforms: false
+  evidence: >-
+    No oauth2 securityScheme in either spec and no Mavenir authorization server;
+    /.well-known/oauth-authorization-server on www.mavenir.com returns 404.
+- id: oidc
+  conforms: false
+  evidence: >-
+    No openIdConnect scheme in the Mavenir-authored specs. The CAMARA WebRTC
+    definitions Mavenir co-maintains do declare openIdConnect, but with a
+    placeholder openIdConnectUrl — that is a CAMARA artifact, not a Mavenir
+    surface. /.well-known/openid-configuration returns 404 on www.mavenir.com.
+- id: ciba
+  conforms: false
+  evidence: >-
+    CIBA is absent from both Mavenir BYON definitions and from the CAMARA WebRTC
+    definitions Mavenir co-maintains; no reference anywhere on mavenir.com.
+- id: http-bearer-rfc6750
+  conforms: true
+  evidence: 'components.securitySchemes.BearerAuth type http scheme bearer in both specs'
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors use a custom ErrorInfo envelope (status, code, message) served as
+    application/json, not application/problem+json. See
+    errors/mavenir-problem-types.yml.
+- id: camara-commonalities
+  conforms: partial
+  evidence: >-
+    The error codes used (INVALID_ARGUMENT, UNAUTHENTICATED, PERMISSION_DENIED,
+    NOT_FOUND, INTERNAL, NOT_IMPLEMENTED, UNAVAILABLE) and the ErrorInfo envelope
+    follow the CAMARA Commonalities error model. The definitions were submitted as
+    supporting documents to the CAMARA API Backlog, not as approved CAMARA APIs,
+    so they carry no Commonalities release tag and were not linted against it.
+- id: camara-participation
+  conforms: true
+  evidence: >-
+    camaraproject/Governance PARTICIPANTS.MD lists eleven Mavenir individuals;
+    camara-landscape lists Mavenir as a Network Capability Solution Provider; two
+    Mavenir engineers are MAINTAINERS of camaraproject/WebRTC and one is a default
+    CODEOWNER; APIbacklog.md lists Mavenir as a WebRTC API supporter.
+- id: tmforum-open-api
+  conforms: true
+  certified: true
+  evidence: >-
+    TM Forum Open API Conformance — Platinum, Mavenir Digital Enablement (MDE) BSS
+    Platform, 2023-09-20, 20+ certified Open APIs; preceded by Silver, 2022-10-06,
+    covering TMF620 Product Catalog Management, TMF622 Product Ordering, TMF629
+    Customer Management, TMF632 Party Management and TMF667 Document Management.
+    The Platinum announcement does not itemize the 20 TMF numbers and TM Forum's
+    conformance directory returned 403 to anonymous fetch, so they are not listed.
+  sources:
+  - https://www.mavenir.com/press-releases/mavenir-achieves-platinum-open-api-status-with-landmark-20-open-apis-certified-by-tm-forum/
+  - https://www.mavenir.com/press-releases/mavenirs-cloud-native-business-support-system-suite-achieves-tm-forums-open-api-silver-certification/
+- id: gsma-open-gateway
+  conforms: false
+  evidence: >-
+    Open Gateway is an operator commitment layer; Mavenir is a vendor, not an
+    operator. Its channel partner Spry Fox Networks holds the Open Gateway API
+    Certification on QP Cloud MONET, fronted by Mavenir's Combo NEF/SCEF — the
+    certification belongs to the partner.
+- id: 3gpp-nef-scef
+  conforms: true
+  evidence: >-
+    Mavenir productizes a Combo NEF/SCEF (3GPP network exposure / service
+    capability exposure) confirmed in the 2024-12-18 Spry Fox Networks press
+    release and the "Monetizing 5G SA with the Network Exposure Function"
+    resource. No interface documentation is published.
+- id: webrtc-rfc7118
+  conforms: true
+  evidence: >-
+    Both definitions exchange SDP offers/answers (RFC 4566 inline SDP) for WebRTC
+    signaling toward a WebRTC Gateway.
+- id: json-api
+  conforms: false
+- id: odata
+  conforms: false
+- id: fhir-r4
+  conforms: false
+- id: scim2
+  conforms: false
+- id: fapi
+  conforms: false
+- id: psd2
+  conforms: false
+- id: pagination
+  conforms: false
+  evidence: no collection endpoints and no pagination parameters in either spec
+- id: idempotency
+  conforms: true
+  evidence: >-
+    clientCorrelator on VvoipSessionInformation is documented as the client-set
+    correlator that allows recovery from communication failures during resource
+    creation without re-sending. See conventions/mavenir-conventions.yml.
+- id: apache-2.0-licensed-spec
+  conforms: true
+  evidence: 'info.license Apache 2.0 on the BYON call handling definition'

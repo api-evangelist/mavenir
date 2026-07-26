@@ -1,0 +1,56 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Mavenir BYON Call Handling (VVoIP Service)
+  version: 1.0.0
+extends: openapi/mavenir-byon-call-handling-openapi.yml
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  source: openapi/mavenir-byon-call-handling-openapi.yml
+  note: >-
+    Captures API Evangelist annotations only. The original spec is a
+    Mavenir-authored contribution to the CAMARA API Backlog and is never mutated.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: mavenir
+    x-apievangelist-provenance: >-
+      Mavenir-authored, CAMARA-hosted supporting document for the WebRTC API
+      proposal. Harvested verbatim 2026-07-25 from
+      https://raw.githubusercontent.com/camaraproject/APIBacklog/main/documentation/SupportingDocuments/BYON-CallHandling-Service.yaml
+    x-apievangelist-hosted: false
+    x-apievangelist-note: >-
+      No Mavenir-hosted endpoint exists. The {apiRoot} server variable defaults to
+      http://localhost:9091 and must be pointed at an operator's WebRTC Gateway.
+- target: $.info
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/mavenir-authentication.yml
+      conventions: conventions/mavenir-conventions.yml
+      errors: errors/mavenir-problem-types.yml
+      events: asyncapi/mavenir-byon-events.yml
+      lifecycle: lifecycle/mavenir-lifecycle.yml
+      data_model: data-model/mavenir-data-model.yml
+      agentic_access: agentic-access/mavenir-agentic-access.yml
+- target: $.paths['/sessions'].post
+  update:
+    x-apievangelist-idempotency:
+      supported: true
+      mechanism: request-body-field
+      field: clientCorrelator
+      note: >-
+        The spec documents clientCorrelator as the correlator a client sets so it
+        can recover from communication failures during session creation without
+        re-sending. This is the OMA/CAMARA client-correlator idiom, the
+        idempotency contract for this operation.
+- target: $.paths['/sessions/{sessionId}'].delete
+  update:
+    x-apievangelist-consequence: safety-critical
+    x-apievangelist-note: >-
+      Terminates a live voice/video session. Classified safety-critical in
+      agentic-access/mavenir-agentic-access.yml — human-in-the-loop required.
+- target: $.components.schemas.ErrorInfo
+  update:
+    x-apievangelist-error-format: >-
+      Custom CAMARA-style envelope (status, code, message). NOT RFC 9457
+      application/problem+json. Catalogued in errors/mavenir-problem-types.yml.

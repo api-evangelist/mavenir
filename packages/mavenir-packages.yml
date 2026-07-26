@@ -1,0 +1,57 @@
+generated: '2026-07-25'
+method: searched
+source: >-
+  npm registry search + package metadata, PyPI simple index, Maven Central
+  solrsearch, github.com/mavenir, and mavenir.com. Probed 2026-07-25.
+summary: >-
+  Mavenir publishes no supported first-party client SDK. The only package on any
+  public registry that is plausibly Mavenir-authored is @cpaassdk/cpaas-sdk on
+  npm — a JavaScript CPaaS calling SDK last published 2022-11-25, carrying the
+  keyword "mavenir call SDK" and listing manjunath.sirdeshpande@mavenir.com as a
+  maintainer. Its homepage (https://click2call.cpaasapi.com/) and the whole
+  cpaasapi.com domain no longer resolve, so the product it wrapped is gone. It is
+  recorded here as evidence, not as a supported SDK — no `SDKs` pointer is wired
+  for it. Mavenir ships its software as licensed operator deployments; integration
+  happens through professional services, not a package manager.
+packages:
+- language: javascript
+  registry: npm
+  name: '@cpaassdk/cpaas-sdk'
+  url: https://www.npmjs.com/package/@cpaassdk/cpaas-sdk
+  install: npm install @cpaassdk/cpaas-sdk
+  latest_version: 1.0.10
+  last_published: '2022-11-25'
+  official: false
+  status: abandoned
+  evidence:
+  - 'npm keywords include "mavenir call SDK", "cpaas", "cpaas-sdk"'
+  - 'maintainer manjunath.sirdeshpande@mavenir.com (corporate address)'
+  - 'maintainers cpaassdk (mavetestenv1@gmail.com) and shoib.mavenir are personal accounts'
+  - 'homepage https://click2call.cpaasapi.com/ — DNS no longer resolves (probed 2026-07-25)'
+  note: >-
+    Employee-published rather than announced by Mavenir; the backing product
+    domain is dead. Not counted as an official SDK.
+registries_probed:
+- registry: npm
+  query: text=mavenir / scope:cpaassdk
+  result: 'one plausible package (@cpaassdk/cpaas-sdk); one unrelated personal package (basicservice)'
+- registry: pypi
+  query: https://pypi.org/simple/mavenir/
+  status: 404
+- registry: maven-central
+  query: 'search.maven.org solrsearch q=mavenir'
+  result: no artifacts
+- registry: github
+  query: github.com/mavenir
+  status: 200
+  result: 'organization page exists; no public repositories'
+- registry: nuget
+  result: not found
+- registry: rubygems
+  result: not found
+- registry: packagist
+  result: not found
+- registry: crates.io
+  result: not found
+- registry: pkg.go.dev
+  result: not found

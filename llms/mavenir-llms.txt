@@ -1,0 +1,58 @@
+# Mavenir
+
+> Mavenir is a US-headquartered (Richardson, Texas) cloud-native telecom network software vendor. It builds the software operators run — Open RAN and vRAN (MAVair), converged packet core and cloud-native IMS (MAVcore), messaging, fraud and security applications, the Mavenir Digital Enablement (MDE) BSS and converged charging stack (MAVapps), private networks, MEC and an Intelligent IoT Platform (MAVedge). Mavenir supplies the Combo NEF/SCEF network-exposure function and the BSS a mobile operator uses to expose and monetize CAMARA and GSMA Open Gateway network APIs — it does not expose those APIs to developers itself.
+
+## What a developer can and cannot do
+
+- There is **no Mavenir developer portal**, no self-serve signup, no sandbox and no hosted API endpoint. developer/docs/api/apis/nef/exposure/opengateway subdomains of mavenir.com do not resolve; support.mavenir.com is an ADFS-gated customer support wall.
+- Mavenir-powered network capability is reached **through a carrier or a channel partner** (for example Spry Fox Networks, whose QP Cloud MONET is Open Gateway API certified and fronted by Mavenir's Combo NEF/SCEF), never directly from Mavenir.
+- The only Mavenir-authored machine-readable API contracts in public are the two Bring Your Own Number (BYON) OpenAPI 3.0.0 definitions Mavenir contributed to the CAMARA API Backlog (Apache 2.0, contact@mavenir.com). They are hosted by the Linux Foundation, not by Mavenir, and their server is a templated `{apiRoot}` defaulting to `http://localhost:9091`.
+
+## APIs
+
+- [Mavenir BYON Call Handling API (VVoIP Service)](https://github.com/camaraproject/APIBacklog/blob/main/documentation/SupportingDocuments/BYON-CallHandling-Service.yaml): 1-1 voice/video calling over WebRTC. Four operations — postSessions, getSessionDetailsById, deleteSessionById, postSessionStatus. HTTP Bearer auth.
+- [Mavenir BYON Registration and Connectivity Management (RACM) API](https://github.com/camaraproject/APIBacklog/blob/main/documentation/SupportingDocuments/BYON-RACM-Service.yaml): register a client into and manage connectivity toward an MNO IMS network. Four operations (no operationIds declared) — POST /session, PUT /session/{sessionId}, DELETE /session/{sessionId}, POST /push. HTTP Bearer auth.
+- [Mavenir Digital Enablement (MDE) TM Forum Open APIs](https://www.mavenir.com/portfolio/mavapps/mavenir-digital-enablement-bss/): TM Forum Open API Platinum conformance (2023-09-20, 20+ certified Open APIs) after Silver (2022-10-06, TMF620/622/629/632/667). Real, verifiable certification — but no public API reference, no OpenAPI download and no endpoint. Delivered inside a licensed operator deployment.
+
+## Specs
+
+- [BYON Call Handling OpenAPI 3.0.0](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/openapi/mavenir-byon-call-handling-openapi.yml)
+- [BYON RACM OpenAPI 3.0.0](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/openapi/mavenir-byon-racm-openapi.yml)
+
+## Artifacts
+
+- [Authentication profile](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/authentication/mavenir-authentication.yml)
+- [API conventions](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/conventions/mavenir-conventions.yml)
+- [Error catalog](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/errors/mavenir-problem-types.yml)
+- [Event and notification surface](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/asyncapi/mavenir-byon-events.yml)
+- [Lifecycle](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/lifecycle/mavenir-lifecycle.yml)
+- [Conformance](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/conformance/mavenir-conformance.yml)
+- [Data model](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/data-model/mavenir-data-model.yml)
+- [Candidate MCP tool surface](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/mcp/mavenir-mcp.yml) and [tool crosswalk](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/mcp/mavenir-tool-crosswalk.yml)
+- [Agentic access contracts](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/agentic-access/mavenir-agentic-access.yml)
+- [Agent skills](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/skills/_index.yml)
+- [Domain security probe](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/security/mavenir-domain-security.yml)
+- [Packages](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/packages/mavenir-packages.yml)
+
+## Standards work
+
+- [CAMARA participants](https://github.com/camaraproject/Governance/blob/main/PARTICIPANTS.MD): eleven named Mavenir individuals.
+- [CAMARA WebRTC sandbox API](https://github.com/camaraproject/WebRTC): two Mavenir engineers are MAINTAINERS, one is a default CODEOWNER.
+- [CAMARA API Backlog](https://github.com/camaraproject/APIBacklog/blob/main/documentation/APIbacklog.md): Mavenir is a listed supporter of the WebRTC API alongside GSMA-OGW, Orange, Telefónica, T-Mobile US and Vodafone.
+- [CAMARA landscape](https://github.com/camaraproject/camara-landscape/blob/main/landscape.yml): Mavenir categorized as a Network Capability Solution Provider.
+
+## Company
+
+- [Website](https://www.mavenir.com/)
+- [Portfolio](https://www.mavenir.com/portfolio/mavapps/)
+- [Blog](https://www.mavenir.com/newsroom/blog/)
+- [Newsroom](https://www.mavenir.com/newsroom/)
+- [Press releases](https://www.mavenir.com/press-releases/)
+- [Regulatory compliance](https://www.mavenir.com/regulatory-compliance/)
+- [Contact](https://www.mavenir.com/contact-us/)
+- [Support portal (customers, ADFS SSO)](https://support.mavenir.com/)
+
+## Optional
+
+- [API Evangelist profile for Mavenir](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/apis.yml)
+- [API Evangelist review](https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/review.yml)

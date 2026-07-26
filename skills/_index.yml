@@ -1,0 +1,28 @@
+generated: '2026-07-25'
+method: generated
+source: openapi/mavenir-byon-call-handling-openapi.yml, openapi/mavenir-byon-racm-openapi.yml
+note: >-
+  Mavenir publishes no AGENTS.md and no agent skills — there is no developer portal
+  to publish them on. These two skills are generated from the Mavenir-authored BYON
+  OpenAPI definitions contributed to the CAMARA API Backlog, and every operation
+  named is verified against the spec it cites. Neither API has a Mavenir-hosted
+  endpoint; both require an operator deployment.
+skills:
+- file: mavenir-register-byon-client.md
+  name: Register a BYON client and keep it connected (Mavenir RACM)
+  api: openapi/mavenir-byon-racm-openapi.yml
+  operations:
+  - 'POST /session'
+  - 'PUT /session/{sessionId}'
+  - 'DELETE /session/{sessionId}'
+  - 'POST /push'
+  note: spec declares no operationIds; operations are addressed by method + path
+- file: mavenir-place-vvoip-call.md
+  name: Place and manage a 1-1 VVoIP call (Mavenir BYON)
+  api: openapi/mavenir-byon-call-handling-openapi.yml
+  operations:
+  - postSessions
+  - getSessionDetailsById
+  - postSessionStatus
+  - deleteSessionById
+  prerequisite: mavenir-register-byon-client.md

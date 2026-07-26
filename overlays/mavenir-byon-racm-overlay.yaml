@@ -1,0 +1,64 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Mavenir BYON RACM Service
+  version: 1.0.0
+extends: openapi/mavenir-byon-racm-openapi.yml
+x-apievangelist:
+  generated: '2026-07-25'
+  method: generated
+  source: openapi/mavenir-byon-racm-openapi.yml
+  note: >-
+    Captures API Evangelist annotations only. The original spec is a
+    Mavenir-authored contribution to the CAMARA API Backlog and is never mutated.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: mavenir
+    x-apievangelist-provenance: >-
+      Mavenir-authored, CAMARA-hosted supporting document for the WebRTC API
+      proposal. Harvested verbatim 2026-07-25 from
+      https://raw.githubusercontent.com/camaraproject/APIBacklog/main/documentation/SupportingDocuments/BYON-RACM-Service.yaml
+    x-apievangelist-hosted: false
+    x-apievangelist-quality-gaps:
+    - No operationId is declared on any of the four operations.
+    - >-
+      Tag names used on operations (RACM, Push Token) do not match the single
+      declared tag (Registration and Connection Management).
+    - >-
+      DELETE /session/{sessionId} maps its 400 response to the NotFound404
+      component, an apparent authoring slip carried verbatim from the source.
+    - >-
+      POST /push carries an operation-level server override pointing at
+      http://swaggerhub.intinfra.com/device/v1/{deviceSessionId}, an authoring
+      artifact rather than a deployable host.
+- target: $.info
+  update:
+    x-apievangelist-artifacts:
+      authentication: authentication/mavenir-authentication.yml
+      conventions: conventions/mavenir-conventions.yml
+      errors: errors/mavenir-problem-types.yml
+      events: asyncapi/mavenir-byon-events.yml
+      lifecycle: lifecycle/mavenir-lifecycle.yml
+      data_model: data-model/mavenir-data-model.yml
+      agentic_access: agentic-access/mavenir-agentic-access.yml
+- target: $.paths['/session'].post
+  update:
+    x-apievangelist-suggested-operation-id: createRacmSession
+    x-apievangelist-note: >-
+      Returns notificationChannelInformation.channelURL — the WebSocket channel a
+      client opens to receive session notifications. See
+      asyncapi/mavenir-byon-events.yml.
+- target: $.paths['/session/{sessionId}'].put
+  update:
+    x-apievangelist-suggested-operation-id: refreshRacmSessionToken
+- target: $.paths['/session/{sessionId}'].delete
+  update:
+    x-apievangelist-suggested-operation-id: deleteRacmSession
+- target: $.paths['/push'].post
+  update:
+    x-apievangelist-suggested-operation-id: registerPushToken
+- target: $.components.schemas.ErrorInfo
+  update:
+    x-apievangelist-error-format: >-
+      Custom CAMARA-style envelope (status, code, message). NOT RFC 9457
+      application/problem+json. Catalogued in errors/mavenir-problem-types.yml.

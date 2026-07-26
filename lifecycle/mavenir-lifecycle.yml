@@ -1,0 +1,64 @@
+generated: '2026-07-25'
+method: derived
+source: >-
+  openapi/mavenir-byon-call-handling-openapi.yml,
+  openapi/mavenir-byon-racm-openapi.yml, plus live probes of mavenir.com
+  (2026-07-25)
+summary: >-
+  Mavenir publishes no API lifecycle policy of any kind — no versioning policy, no
+  deprecation policy, no Sunset/Deprecation header commitment, no public SLA and no
+  status page. That is consistent with its model: the software runs in a licensed
+  operator deployment, so lifecycle is governed by a commercial contract and a
+  release train the operator negotiates, not by a public developer promise.
+  Everything below is derived from the two contributed OpenAPI definitions except
+  where a probe status is recorded.
+versioning:
+  scheme: uri-path
+  current: v1
+  evidence: >-
+    Both specs template the version into the server URL — {apiRoot}/vvoip/{apiVersion}/{userId}
+    and {apiRoot}/racm/{apiVersion}/{userId} — with apiVersion defaulting to v1.
+  spec_version: 1.0.0
+  docs: null
+  policy: null
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  evidence: >-
+    No deprecated operations, no Sunset or Deprecation header, and no RFC 8594
+    reference in either spec. No deprecation policy page exists on mavenir.com
+    (whole sitemap enumerated in review.yml).
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No public SLA. Availability commitments for Mavenir software live in the
+    operator's licensing agreement.
+status_page: null
+status_page_probes:
+- url: https://status.mavenir.com
+  status: '000'
+  note: DNS does not resolve.
+change_log:
+  url: null
+  note: >-
+    No dated API changelog. The nearest public cadence signal is the press-release
+    index (https://www.mavenir.com/press-releases/) and the blog
+    (https://www.mavenir.com/newsroom/blog/), which are corporate news, not release
+    notes. Spec-level change history for the two BYON definitions lives in the
+    camaraproject/APIBacklog git history.
+deprecated_operations: []
+maturity:
+  stage: reference-definition
+  note: >-
+    Both harvested specs are supporting documents attached to a CAMARA API
+    proposal, not GA product contracts. The upstream WebRTC API they support is at
+    CAMARA sandbox/incubating stage (webrtc-call-handling r2.2 v0.3.0). Treat the
+    surface as pre-release.
+  upstream: https://github.com/camaraproject/WebRTC
+support:
+  portal: https://support.mavenir.com/
+  gated: true
+  note: ADFS SSO wall (adfs.mavex.mavenir.com); customers only, no anonymous read.
+  contact: https://www.mavenir.com/contact-us/

@@ -1,0 +1,113 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/mavenir-byon-call-handling-openapi.yml, openapi/mavenir-byon-racm-openapi.yml
+spec_type: none
+surface: websocket + web-push
+note: >-
+  Mavenir publishes no AsyncAPI document and no webhook catalog — there is no
+  developer portal to publish one on. There IS, however, a real and fully specified
+  asynchronous surface inside the two Mavenir-authored BYON definitions: a RACM
+  session hands the client a WebSocket channel URL, the client registers a device
+  push token for out-of-band wakeup, and the gateway then pushes session
+  invitation and session status notifications whose payload schemas are declared in
+  the call handling spec. Those notification schemas are declared but never bound
+  to an operation or a callback in the OpenAPI, so the transport binding below is
+  read from the RACM channel contract rather than from a channel declaration. No
+  AsyncAPI document is generated here because the channel address, protocol version
+  and message envelope are not published — deriving one would mean inventing them.
+channels:
+- name: notification-channel
+  protocol: websocket
+  address: 'runtime — RacmResponse.notificationChannelInformation.channelURL'
+  direction: gateway-to-client
+  established_by: 'openapi/mavenir-byon-racm-openapi.yml#POST /session'
+  description: >-
+    "The channel url which client need to use for WebSocket creation." The client
+    opens this WebSocket after RACM registration and receives call notifications on
+    it for the life of the session.
+  source: 'openapi/mavenir-byon-racm-openapi.yml#/components/schemas/NotificationChannelInformation'
+- name: device-push
+  protocol: web-push-fcm
+  address: 'external — Firebase Cloud Messaging (client-supplied registration token)'
+  direction: network-to-device
+  established_by: 'openapi/mavenir-byon-racm-openapi.yml#POST /push'
+  description: >-
+    Optional. The client provides a device token (deviceId, OSName, OSVersion,
+    appName, BundleID, WebToken) so the network can wake the device. The spec notes
+    "This is an Optional API, the client could use any external mechanism to update
+    the PNS server" and that Chrome browser Web Push is currently supported, with
+    desktop Electron and other browsers planned.
+  source: 'openapi/mavenir-byon-racm-openapi.yml#/components/schemas/PushInformation'
+messages:
+- name: SessionInvitationNotification
+  direction: gateway-to-client
+  trigger: an inbound 1-1 call is offered to this client (termination)
+  schema: 'openapi/mavenir-byon-call-handling-openapi.yml#/components/schemas/SessionInvitationNotification'
+  required:
+  - originatorAddress
+  fields:
+  - originatorAddress
+  - originatorName
+  - receiverAddress
+  - receiverName
+  - offer
+  - answer
+  - callObjectRef
+  - serverCorrelator
+  note: >-
+    Carries the resourceUrl the client must use to answer — the spec instructs
+    clients to take the URL from the invitation notification on termination rather
+    than constructing it.
+- name: SessionStatusNotification
+  direction: gateway-to-client
+  trigger: the state of an established or in-progress session changes
+  schema: 'openapi/mavenir-byon-call-handling-openapi.yml#/components/schemas/SessionStatusNotification'
+  required:
+  - status
+  fields:
+  - status
+  - responseCode
+  - offer
+  - answer
+  - receiverName
+  - receiverAddress
+  - callObjectRef
+  - offerRequired
+  - serverCorrelator
+  - reason
+  - sequenceNumber
+  note: >-
+    responseCode carries the corresponding SIP response code, mainly for
+    provisional responses (180, 183, 200). offerRequired set true means the update
+    arrived without SDP and the client must send an offer.
+event_types:
+  source: 'openapi/mavenir-byon-call-handling-openapi.yml#/components/schemas/SessionStatus'
+  note: The notification status field is the event type. Enumerated values are fixed by the spec.
+  values:
+  - Initial
+  - InProgress
+  - Ringing
+  - Proceeding
+  - Connected
+  - Terminated
+  - Hold
+  - Resume
+  - SessionCancelled
+  - Declined
+  - Failed
+  - Waiting
+  - NoAnswer
+  - NotReachable
+  - Busy
+webhooks:
+  http_callbacks: false
+  note: >-
+    There are no HTTP webhooks. Anything integrating with this surface must hold a
+    WebSocket open or rely on device push; a server-to-server callback URL is not
+    part of the contract.
+gaps:
+- No AsyncAPI document published by Mavenir.
+- Notification schemas are declared in components but never bound to a channel, callback or webhook in the OpenAPI.
+- No message envelope, WebSocket subprotocol or framing is specified.
+- No delivery guarantee, ordering guarantee or replay mechanism is documented; sequenceNumber exists but its semantics are not defined.
+- The CAMARA WebRTC events/subscriptions API that Mavenir co-maintains uses CloudEvents-based subscriptions — a standards artifact, not this Mavenir surface.

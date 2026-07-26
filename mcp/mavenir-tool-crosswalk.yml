@@ -1,0 +1,104 @@
+generated: '2026-07-25'
+method: derived
+source: mcp/mavenir-mcp.yml, openapi/mavenir-byon-call-handling-openapi.yml, openapi/mavenir-byon-racm-openapi.yml
+note: >-
+  Mavenir has no published MCP server and no GraphQL surface, so this crosswalk
+  binds the DERIVED candidate tool set to the REST operations it was derived from.
+  Every row is 1:1 by construction — there are no MCP-only composites and no
+  GraphQL-only fields, because neither surface exists. The value here is the
+  binding itself: each candidate tool inherits its real input contract (parameters
+  + requestBody) from the named OpenAPI operation, so an implementer does not have
+  to guess a schema. Confidence is high everywhere the spec declares an
+  operationId and medium where it does not (the RACM spec declares none, so the
+  binding is by method + path).
+surfaces:
+  openapi:
+  - file: openapi/mavenir-byon-call-handling-openapi.yml
+    operations: 4
+    operation_ids: true
+    gated: false
+    note: >-
+      Reference definition contributed to the CAMARA API Backlog. Server is a
+      templated {apiRoot} defaulting to http://localhost:9091 — no Mavenir-hosted
+      endpoint exists.
+  - file: openapi/mavenir-byon-racm-openapi.yml
+    operations: 4
+    operation_ids: false
+    gated: false
+    note: Same provenance; no operationIds declared.
+  graphql: null
+  mcp:
+    url: null
+    status: candidate
+    note: No hosted server; tools/list could not be called because no server exists.
+crosswalk:
+- tool: create_vvoip_session
+  category: calling
+  rest:
+  - postSessions
+  binding: rest
+  confidence: high
+  note: >-
+    Input schema = VvoipSessionInformation requestBody + required transactionId
+    and clientId headers.
+- tool: get_vvoip_session
+  category: calling
+  rest:
+  - getSessionDetailsById
+  binding: rest
+  confidence: high
+- tool: end_vvoip_session
+  category: calling
+  rest:
+  - deleteSessionById
+  binding: rest
+  confidence: high
+- tool: update_vvoip_session_status
+  category: calling
+  rest:
+  - postSessionStatus
+  binding: rest
+  confidence: high
+  note: >-
+    operationId is postSessionStatus even though the HTTP method is PUT — kept
+    verbatim from the spec.
+- tool: create_racm_session
+  category: registration
+  rest:
+  - 'POST /session'
+  binding: rest
+  confidence: medium
+  note: RACM spec declares no operationId; bound by method + path.
+- tool: refresh_racm_session
+  category: registration
+  rest:
+  - 'PUT /session/{sessionId}'
+  binding: rest
+  confidence: medium
+  note: RACM spec declares no operationId; bound by method + path.
+- tool: delete_racm_session
+  category: registration
+  rest:
+  - 'DELETE /session/{sessionId}'
+  binding: rest
+  confidence: medium
+  note: RACM spec declares no operationId; bound by method + path.
+- tool: register_push_token
+  category: notifications
+  rest:
+  - 'POST /push'
+  binding: rest
+  confidence: medium
+  note: >-
+    RACM spec declares no operationId. This operation carries its own server
+    override (http://swaggerhub.intinfra.com/device/v1/{deviceSessionId}), an
+    authoring artifact left in the contributed definition.
+mcp_only: []
+rest_only: []
+coverage:
+  tools_named: 8
+  tools_bound: 8
+  mcp_only: 0
+  rest_operations_total: 8
+  rest_operations_with_tool: 8
+  graphql_fields: 0

@@ -1,0 +1,13 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/mavenir-byon-call-handling-openapi.yml, openapi/mavenir-byon-racm-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  sources:
+  - openapi/mavenir-byon-call-handling-openapi.yml
+  - openapi/mavenir-byon-racm-openapi.yml

@@ -1,0 +1,17 @@
+generated: '2026-07-25'
+method: derived
+source: arazzo/*.yml
+workflows:
+- file: mavenir-byon-place-and-manage-call.yml
+  workflowId: place-and-manage-vvoip-call
+  title: Place and manage a 1-1 VVoIP call (Mavenir BYON)
+  summary: >-
+    Create a VVoIP session with an SDP offer, read it back, drive it to Connected
+    with the SDP answer, then terminate it. Grounded in the four verified
+    operationIds of the Mavenir BYON call handling definition. Not runnable against
+    Mavenir — requires an operator's WebRTC Gateway deployment.
+  api: openapi/mavenir-byon-call-handling-openapi.yml
+note: >-
+  Only the call handling definition can back an Arazzo workflow. The companion BYON
+  RACM definition declares no operationIds, so no verified step could reference it
+  without inventing identifiers.

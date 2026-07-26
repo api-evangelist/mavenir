@@ -1,0 +1,39 @@
+generated: '2026-07-25'
+method: searched
+source: live probes of the only public Mavenir host, 2026-07-25
+summary: >-
+  Mavenir serves no /.well-known/ discovery surface. www.mavenir.com is the only
+  reachable first-party host — every developer-shaped subdomain (developer., docs.,
+  api., apis., nef., exposure., opengateway.) fails to resolve, and the two harvested
+  OpenAPI definitions carry only a templated {apiRoot} server whose default is
+  http://localhost:9091, so there is no API host to probe. Every well-known path
+  below returned 404. No raw documents were captured; nothing is wired as a
+  WellKnown pointer because no catalog exists.
+host: https://www.mavenir.com
+documents:
+- path: /.well-known/security.txt
+  status: 404
+- path: /.well-known/openid-configuration
+  status: 404
+- path: /.well-known/oauth-authorization-server
+  status: 404
+- path: /.well-known/api-catalog
+  status: 404
+- path: /.well-known/ai-plugin.json
+  status: 404
+- path: /security.txt
+  status: 404
+- path: /llms.txt
+  status: 404
+also_probed:
+- host: https://mavenir.com
+  path: /.well-known/security.txt
+  status: 404
+- host: https://support.mavenir.com
+  status: 307
+  note: ADFS SSO redirect (adfs.mavex.mavenir.com); nothing readable anonymously.
+- host: 'API host (from OpenAPI servers[])'
+  status: n/a
+  note: >-
+    Both specs template {apiRoot} with a http://localhost:9091 default — a
+    reference definition, not a deployed host. No API host exists to probe.

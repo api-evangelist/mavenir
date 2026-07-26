@@ -1,0 +1,224 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/mavenir-byon-call-handling-openapi.yml, openapi/mavenir-byon-racm-openapi.yml
+note: >-
+  Entity graph derived from schema $ref links and id-reference fields in the two
+  Mavenir-authored BYON definitions. Mavenir publishes no object reference, so no
+  id prefixes or domain names could be searched — identifiers below are the ones
+  the specs actually name. There is no subway/ render in this repo.
+entities:
+- name: RacmSession
+  spec: openapi/mavenir-byon-racm-openapi.yml
+  schema: RacmResponse
+  created_by: 'POST /session'
+  identifier: sessionId (carried inside resourceURL)
+  description: >-
+    A client's registration and connectivity session toward the operator's IMS
+    network. Creating one yields the clientId every other operation must echo and
+    the WebSocket channel URL notifications arrive on. Deleting it deregisters the
+    client.
+  fields:
+  - connectionInformation
+  - notificationChannelInformation
+  - resourceURL
+- name: ConnectionInformation
+  spec: openapi/mavenir-byon-racm-openapi.yml
+  schema: ConnectionInformation
+  identifier: clientId
+  description: >-
+    The association of a device with the WebRTC Gateway. clientId is assigned here
+    and is then a required header on every call handling and RACM operation.
+- name: NotificationChannelInformation
+  spec: openapi/mavenir-byon-racm-openapi.yml
+  schema: NotificationChannelInformation
+  identifier: channelURL
+  description: The WebSocket channel the client opens to receive notifications.
+- name: PushRegistration
+  spec: openapi/mavenir-byon-racm-openapi.yml
+  schema: PushInformation
+  created_by: 'POST /push'
+  identifier: deviceId
+  description: >-
+    A device push token registration (Web Push FCM) so the network can wake the
+    device. Optional by the spec's own statement.
+  fields:
+  - deviceId
+  - OSName
+  - OSVersion
+  - appName
+  - BundleID
+  - WebToken
+- name: VvoipSession
+  spec: openapi/mavenir-byon-call-handling-openapi.yml
+  schema: VvoipSessionInformation
+  created_by: postSessions
+  identifier: sessionId (path parameter; also embedded in resourceUrl)
+  description: >-
+    A 1-1 voice and/or video call session. Holds both parties' addresses, the
+    current SessionStatus, the SDP offer and answer, the client correlator and the
+    self-referencing resourceUrl.
+  fields:
+  - originatorAddress
+  - originatorName
+  - receiverAddress
+  - receiverName
+  - status
+  - offer
+  - answer
+  - clientCorrelator
+  - resourceUrl
+- name: WrtcsOffer
+  spec: openapi/mavenir-byon-call-handling-openapi.yml
+  schema: WrtcsOffer
+  description: Inline SDP (RFC 4566) offer. Required on session creation from the application.
+- name: WrtcsAnswer
+  spec: openapi/mavenir-byon-call-handling-openapi.yml
+  schema: WrtcsAnswer
+  description: >-
+    Inline SDP answer. Absent while there is no answer yet or the invitation was
+    declined; must not be present on a create request.
+- name: SessionStatus
+  spec: openapi/mavenir-byon-call-handling-openapi.yml
+  schema: SessionStatus
+  kind: enum
+  description: >-
+    The lifecycle state of a VvoipSession. Fifteen values from Initial through the
+    terminal set (Terminated, SessionCancelled, Declined, Failed, NoAnswer,
+    NotReachable, Busy).
+- name: ReceiverSessionStatus
+  spec: openapi/mavenir-byon-call-handling-openapi.yml
+  schema: ReceiverSessionStatus
+  used_by: postSessionStatus
+  description: >-
+    The receiver-side status update body (status, SIP responseCode, offer, answer,
+    receiver identity) sent on PUT /sessions/{sessionId}/status.
+- name: SessionInvitationNotification
+  spec: openapi/mavenir-byon-call-handling-openapi.yml
+  schema: SessionInvitationNotification
+  kind: notification
+  description: Inbound-call notification pushed over the RACM notification channel.
+- name: SessionStatusNotification
+  spec: openapi/mavenir-byon-call-handling-openapi.yml
+  schema: SessionStatusNotification
+  kind: notification
+  description: Session state-change notification pushed over the RACM notification channel.
+- name: ErrorInfo
+  spec: both
+  schema: ErrorInfo
+  kind: error-envelope
+  description: 'Shared error envelope: status, code, message. See errors/mavenir-problem-types.yml.'
+relationships:
+- from: RacmSession
+  to: ConnectionInformation
+  type: has_one
+  via: connectionInformation
+  evidence: '$ref in RacmResponse'
+- from: RacmSession
+  to: NotificationChannelInformation
+  type: has_one
+  via: notificationChannelInformation
+  evidence: '$ref in RacmResponse'
+- from: VvoipSession
+  to: SessionStatus
+  type: has_one
+  via: status
+  evidence: '$ref in VvoipSessionInformation'
+- from: VvoipSession
+  to: WrtcsOffer
+  type: has_one
+  via: offer
+  evidence: '$ref in VvoipSessionInformation'
+- from: VvoipSession
+  to: WrtcsAnswer
+  type: has_one
+  via: answer
+  evidence: '$ref in VvoipSessionInformation'
+- from: SessionInvitationNotification
+  to: WrtcsOffer
+  type: has_one
+  via: offer
+  evidence: '$ref in SessionInvitationNotification'
+- from: SessionInvitationNotification
+  to: WrtcsAnswer
+  type: has_one
+  via: answer
+  evidence: '$ref in SessionInvitationNotification'
+- from: SessionStatusNotification
+  to: SessionStatus
+  type: has_one
+  via: status
+  evidence: '$ref in SessionStatusNotification'
+- from: SessionStatusNotification
+  to: WrtcsOffer
+  type: has_one
+  via: offer
+  evidence: '$ref in SessionStatusNotification'
+- from: SessionStatusNotification
+  to: WrtcsAnswer
+  type: has_one
+  via: answer
+  evidence: '$ref in SessionStatusNotification'
+- from: ReceiverSessionStatus
+  to: SessionStatus
+  type: has_one
+  via: status
+  evidence: '$ref in ReceiverSessionStatus'
+- from: ReceiverSessionStatus
+  to: WrtcsOffer
+  type: has_one
+  via: offer
+  evidence: '$ref in ReceiverSessionStatus'
+- from: ReceiverSessionStatus
+  to: WrtcsAnswer
+  type: has_one
+  via: answer
+  evidence: '$ref in ReceiverSessionStatus'
+- from: VvoipSession
+  to: ConnectionInformation
+  type: belongs_to
+  via: clientId
+  evidence: >-
+    cross-spec id reference — clientId is minted by RACM and required as a header
+    on every call handling operation. Not a $ref; inferred from the header
+    descriptions ("The Client Id assigned by WebRTC Gateway") in both specs.
+  confidence: high
+- from: PushRegistration
+  to: ConnectionInformation
+  type: belongs_to
+  via: clientId
+  evidence: 'required clientId header on POST /push'
+  confidence: high
+identifiers:
+- name: sessionId
+  type: opaque string
+  assigned_by: WebRTC Gateway
+  note: >-
+    Assigned per session and embedded in the returned resourceUrl. The specs
+    instruct clients to use the returned resourceUrl rather than construct URLs.
+    Example values in the spec are long uppercase hex-like strings.
+- name: clientId
+  type: opaque string
+  assigned_by: WebRTC Gateway (via RACM session creation)
+- name: deviceId
+  type: uuid
+  assigned_by: client
+- name: clientCorrelator
+  type: uuid
+  assigned_by: client
+  note: 'idempotency correlator — see conventions/mavenir-conventions.yml'
+- name: transactionId
+  type: opaque string
+  assigned_by: client
+  note: required request-tracing header on every operation
+- name: serverCorrelator
+  type: opaque string
+  assigned_by: network
+  note: end-to-end correlator usable in QoE reports
+addressing:
+  format: 'URI — tel:, sip: or acr: schemes'
+  fields:
+  - originatorAddress
+  - receiverAddress
+  examples:
+  - 'tel:+911234567890'
+  - 'tel:+817085852753'

@@ -1,0 +1,135 @@
+generated: '2026-07-25'
+method: derived
+source: openapi/mavenir-byon-call-handling-openapi.yml, openapi/mavenir-byon-racm-openapi.yml
+note: >-
+  Derived from the two Mavenir-authored BYON OpenAPI definitions contributed to the
+  CAMARA API Backlog. Mavenir publishes no developer documentation, so nothing here
+  is searched from docs — every rule below is read out of the specs themselves.
+authentication:
+  style: http-bearer
+  header: Authorization
+  scheme: BearerAuth
+  scopes_referenced:
+  - read
+  - write
+  note: >-
+    Every operation in both specs requires BearerAuth with the scope strings read
+    and write. The scheme is declared as http/bearer, not oauth2, so those strings
+    are requirement labels rather than registered OAuth scopes — there is no scope
+    catalog and no authorization server. RACM PUT /session/{sessionId} exists
+    specifically to hand a refreshed access token to the WebRTC Gateway, so tokens
+    are expected to be short-lived and refreshed out of band.
+  artifact: authentication/mavenir-authentication.yml
+idempotency:
+  supported: true
+  mechanism: request-body-field
+  field: clientCorrelator
+  location: 'VvoipSessionInformation (POST /sessions request body)'
+  header: null
+  retention: unspecified
+  server_behavior: >-
+    "In case the element is present, the WebRTC GW shall not alter its value, and
+    shall provide it as part of the representation of this resource" — verbatim
+    from the spec.
+  purpose: >-
+    "Allows the client to recover from communication failures during resource
+    creation and therefore avoids re-sending the message in such situations" —
+    verbatim from the spec.
+  note: >-
+    This is the OMA/CAMARA client-correlator idiom rather than an Idempotency-Key
+    header. It applies to session creation on the call handling API. The RACM API
+    defines no correlator; retrying POST /session there is not safe by contract.
+  source: 'openapi/mavenir-byon-call-handling-openapi.yml#/components/schemas/VvoipSessionInformation'
+request_tracing:
+  header: transactionId
+  required: true
+  scope: every operation in both specs
+  description: The transaction identifier associated with the request.
+  correlation:
+    server_side:
+      field: serverCorrelator
+      description: >-
+        End-to-end correlator the network generates and instructs the client to
+        use; usable in Quality-of-Experience (QoE) reports.
+      source: SessionInvitationNotification, SessionStatusNotification
+    notification_sequence:
+      field: sequenceNumber
+      description: Sequence number of the notification sent to the client.
+  note: >-
+    There is no X-Request-Id / traceparent convention. transactionId is the only
+    request-scoped trace handle and it is client-supplied and mandatory.
+client_identity:
+  header: clientId
+  required: true
+  description: >-
+    The client identifier assigned by the WebRTC Gateway. Issued in
+    ConnectionInformation.clientId on RACM session creation, then echoed on every
+    subsequent call handling and RACM request. RACM POST /session is the only
+    operation that does not require it — because it is the operation that mints it.
+  source: 'openapi/mavenir-byon-racm-openapi.yml#/components/schemas/ConnectionInformation'
+resource_addressing:
+  style: server-supplied-hateoas
+  field: resourceUrl
+  rule: >-
+    "Client shall use the resourceUrl supplied in the session creation response
+    (origination) or in the invitation notification (termination)" — the specs
+    repeat this on retrieve, delete and status update, and RACM adds "There is no
+    need of constructing the URL".
+  note: >-
+    resourceUrl must not be sent by the client on POST, must be included by the
+    gateway in any response with an entity body and in notifications carrying a
+    complete representation, and must be present on PUT. Clients that build URLs by
+    string concatenation are working against the contract.
+pagination:
+  supported: false
+  note: No collection endpoints exist in either spec.
+field_expansion:
+  supported: false
+sparse_fieldsets:
+  supported: false
+metadata:
+  supported: false
+versioning:
+  style: uri-path-template
+  variable: apiVersion
+  default: v1
+  artifact: lifecycle/mavenir-lifecycle.yml
+error_envelope:
+  format: custom
+  media_type: application/json
+  schema: ErrorInfo
+  fields:
+  - status
+  - code
+  - message
+  rfc9457: false
+  code_vocabulary:
+  - INVALID_ARGUMENT
+  - UNAUTHENTICATED
+  - PERMISSION_DENIED
+  - NOT_FOUND
+  - INTERNAL
+  - NOT_IMPLEMENTED
+  - UNAVAILABLE
+  artifact: errors/mavenir-problem-types.yml
+rate_limiting:
+  documented: false
+  headers: []
+  note: >-
+    No rate-limit headers, no 429 response and no quota documentation anywhere in
+    either spec. Enforcement, if any, is an operator deployment concern.
+events:
+  style: websocket-channel + web-push
+  note: >-
+    Notifications are not HTTP callbacks. RACM session creation returns
+    notificationChannelInformation.channelURL, a WebSocket URL the client opens;
+    device push tokens are registered separately via POST /push (Web Push FCM).
+  artifact: asyncapi/mavenir-byon-events.yml
+media_types:
+  request: application/json
+  response: application/json
+  embedded:
+    sdp: >-
+      SDP bodies (RFC 4566) are carried inline as strings inside offer.sdp and
+      answer.sdp, with CRLF line endings preserved. If XML syntax is used the spec
+      requires the content be embedded in a CDATA section.
