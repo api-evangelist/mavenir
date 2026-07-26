@@ -1,0 +1,161 @@
+aid: mavenir
+url: https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/apis.yml
+name: Mavenir
+kind: company
+description: >-
+  Mavenir is a US-headquartered (Richardson, Texas) cloud-native telecom network
+  software vendor that builds the software operators run rather than a network
+  or a developer platform of its own. Its portfolio spans Open RAN and vRAN
+  (MAVair), converged packet core and cloud-native IMS (MAVcore), messaging,
+  fraud and security applications, the Mavenir Digital Enablement (MDE) BSS and
+  converged charging stack (MAVapps), private networks, MEC and an Intelligent
+  IoT Platform (MAVedge). In the telecom value chain Mavenir sits upstream of the
+  carrier — it supplies the Combo NEF/SCEF network-exposure function and the BSS
+  that a mobile operator uses to expose and monetize CAMARA and GSMA Open Gateway
+  network APIs, but it does not expose those APIs to developers itself. Its API
+  posture is accordingly partner-gated and sales-led: there is no developer
+  portal at any developer/docs/api subdomain, no self-serve signup, no sandbox,
+  and no downloadable specification on mavenir.com; the only login-bearing
+  surface, support.mavenir.com, is an ADFS-protected customer support wall.
+  What Mavenir does publish is standards work — it is an active CAMARA
+  participant with eleven named individuals in CAMARA governance, is listed in
+  the CAMARA landscape as a Network Capability Solution Provider, co-maintains
+  the camaraproject/WebRTC sandbox API repository (two of the four CODEOWNERS
+  are Mavenir engineers), contributed its own Bring Your Own Number (BYON)
+  OpenAPI definitions to the CAMARA API Backlog, and holds TM Forum Open API
+  Platinum conformance with 20+ certified Open APIs on the MDE BSS platform.
+  Developers reach Mavenir-powered capability only through a carrier or through
+  a channel partner such as Spry Fox Networks, never directly.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Telecommunications
+- United States
+- Network Vendor
+- Network APIs
+- CAMARA
+- Open Gateway
+- BSS
+- OSS
+- TM Forum
+- Open RAN
+- 5G
+- IMS
+- Messaging
+- Network Exposure Function
+- Standards
+created: '2026-07-25'
+modified: '2026-07-25'
+specificationVersion: '0.19'
+apis:
+- aid: mavenir:mavenir-byon-call-handling-api
+  name: Mavenir BYON Call Handling API (VVoIP Service)
+  description: >-
+    A Mavenir-authored OpenAPI 3.0.0 definition for a Bring Your Own Number
+    (BYON) one-to-one voice and video calling service over WebRTC, contributed
+    by Mavenir (contact@mavenir.com, Apache 2.0) to the CAMARA API Backlog as a
+    supporting document for the WebRTC API proposal that Mavenir co-maintains.
+    Four operations create, retrieve, update the status of and delete a VVoIP
+    session, exchanging SDP offers and answers. This is a contributed reference
+    definition in a public standards repository, not a Mavenir-hosted commercial
+    endpoint — the spec ships only a templated {apiRoot} server whose default is
+    http://localhost:9091, and authentication is HTTP Bearer.
+  humanURL: https://github.com/camaraproject/APIBacklog/blob/main/documentation/SupportingDocuments/BYON-CallHandling-Service.yaml
+  tags:
+  - Voice
+  - Video
+  - WebRTC
+  - VVoIP
+  - CAMARA
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenir-byon-call-handling-openapi.yml
+  - type: Documentation
+    url: https://github.com/camaraproject/WebRTC
+  - type: APIReference
+    url: https://raw.githubusercontent.com/camaraproject/APIBacklog/main/documentation/SupportingDocuments/BYON-CallHandling-Service.yaml
+- aid: mavenir:mavenir-byon-racm-api
+  name: Mavenir BYON Registration and Connectivity Management (RACM) API
+  description: >-
+    A Mavenir-authored OpenAPI 3.0.0 definition for Bring Your Own Number (BYON)
+    Registration and Connectivity Management, giving a REST client the ability
+    to register into and manage its connectivity toward a mobile network
+    operator's IMS network. Four operations create, refresh and delete a RACM
+    session and register a push channel. Contributed by Mavenir to the CAMARA
+    API Backlog as a supporting document for the WebRTC API proposal; it is a
+    standards-track reference definition, not a hosted Mavenir endpoint, with a
+    templated {apiRoot} server defaulting to http://localhost:9091 and HTTP
+    Bearer authentication.
+  humanURL: https://github.com/camaraproject/APIBacklog/blob/main/documentation/SupportingDocuments/BYON-RACM-Service.yaml
+  tags:
+  - IMS
+  - Registration
+  - Connectivity
+  - WebRTC
+  - CAMARA
+  properties:
+  - type: OpenAPI
+    url: openapi/mavenir-byon-racm-openapi.yml
+  - type: Documentation
+    url: https://github.com/camaraproject/WebRTC
+  - type: APIReference
+    url: https://raw.githubusercontent.com/camaraproject/APIBacklog/main/documentation/SupportingDocuments/BYON-RACM-Service.yaml
+- aid: mavenir:mavenir-digital-enablement-tm-forum-open-apis
+  name: Mavenir Digital Enablement (MDE) TM Forum Open APIs
+  description: >-
+    The TM Forum Open APIs implemented in Mavenir's cloud-native Digital
+    Enablement (MDE) BSS, converged charging and digital marketplace platform.
+    Mavenir holds TM Forum Open API Conformance certification for this product:
+    Silver on 2022-10-06 covering TMF620 Product Catalog Management, TMF622
+    Product Ordering, TMF629 Customer Management, TMF632 Party Management and
+    TMF667 Document Management, then Platinum on 2023-09-20 with 20+ certified
+    Open APIs. The certification is real, published and verifiable through TM
+    Forum, and the interface contracts are TM Forum's public specifications —
+    but Mavenir itself publishes no public API reference, no OpenAPI download
+    and no endpoint for these APIs. They are delivered inside a licensed
+    operator deployment and are reachable only under a commercial engagement.
+    The individual 20 certified TMF numbers behind the Platinum tier were not
+    itemized in Mavenir's announcement.
+  humanURL: https://www.mavenir.com/portfolio/mavapps/mavenir-digital-enablement-bss/
+  tags:
+  - BSS
+  - TM Forum
+  - Charging
+  - Product Catalog
+  - Ordering
+  properties:
+  - type: Documentation
+    url: https://www.mavenir.com/portfolio/mavapps/mavenir-digital-enablement-bss/
+  - type: Documentation
+    url: https://www.mavenir.com/press-releases/mavenir-achieves-platinum-open-api-status-with-landmark-20-open-apis-certified-by-tm-forum/
+  - type: Documentation
+    url: https://www.mavenir.com/press-releases/mavenirs-cloud-native-business-support-system-suite-achieves-tm-forums-open-api-silver-certification/
+common:
+- type: Website
+  url: https://www.mavenir.com/
+- type: About
+  url: https://www.mavenir.com/about/
+- type: Portfolio
+  url: https://www.mavenir.com/portfolio/mavapps/
+- type: Newsroom
+  url: https://www.mavenir.com/newsroom/
+- type: PressReleases
+  url: https://www.mavenir.com/press-releases/
+- type: Contact
+  url: https://www.mavenir.com/contact-us/
+- type: SupportPortal
+  url: https://support.mavenir.com/
+- type: Privacy
+  url: https://www.mavenir.com/data-privacy-notice/
+- type: TermsOfService
+  url: https://www.mavenir.com/terms-use/
+- type: Compliance
+  url: https://www.mavenir.com/regulatory-compliance/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/mavenir
+- type: Standards
+  url: https://github.com/camaraproject/WebRTC
+- type: Standards
+  url: https://github.com/camaraproject/Governance/blob/main/PARTICIPANTS.MD
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

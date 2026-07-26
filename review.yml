@@ -1,0 +1,415 @@
+aid: mavenir
+name: Mavenir
+review:
+  question: Does Mavenir publish a public, self-serve developer portal and downloadable API specifications?
+  answer: false
+  date: '2026-07-25'
+  reviewer: API Evangelist
+  homeMarket: United States
+  tier: network-vendor-bss
+  gated: true
+findings:
+  summary: |
+    Mavenir is a network software vendor, not a network operator and not a
+    CPaaS aggregator. It sells the software an operator runs — Open RAN/vRAN,
+    converged packet core, cloud-native IMS, messaging, fraud and security
+    applications, the Mavenir Digital Enablement (MDE) BSS and converged
+    charging stack, private networks, MEC and an Intelligent IoT Platform —
+    and it explicitly sells the Combo NEF/SCEF network-exposure function that
+    lets a carrier expose CAMARA / GSMA Open Gateway APIs. It does not expose
+    those APIs itself. There is no first-party developer portal, no self-serve
+    signup, no sandbox, no public API reference and no downloadable
+    specification anywhere on mavenir.com. Every developer-shaped hostname
+    resolves to nothing. The one live gated surface, support.mavenir.com, is a
+    customer support portal that 307-redirects to an ADFS SSO login.
+
+    Two things are nonetheless real and public. First, Mavenir is a genuine,
+    working CAMARA participant — not a press release. Eleven Mavenir
+    individuals are listed in camaraproject/Governance PARTICIPANTS.MD, the
+    company appears in the CAMARA landscape as a "Solution Provider / Network
+    Capability Solution Providers", two Mavenir engineers are MAINTAINERS and
+    CODEOWNERS of the camaraproject/WebRTC sandbox API repository, and Mavenir
+    is listed in the CAMARA API Backlog as a supporter of the WebRTC API
+    alongside GSMA-OGW, Orange, Telefónica, T-Mobile US and Vodafone. Mavenir
+    also contributed two of its own OpenAPI 3.0.0 definitions (Bring Your Own
+    Number call handling and BYON RACM, Apache 2.0, contact@mavenir.com) into
+    the CAMARA API Backlog as supporting documents. Those two specs are the
+    only Mavenir-authored machine-readable API contracts that exist in public,
+    and they are hosted by the Linux Foundation, not by Mavenir.
+
+    Second, Mavenir holds real TM Forum Open API conformance certification on
+    its MDE BSS — Silver in 2022 for five named TMF APIs, then Platinum in
+    2023 with 20+ certified Open APIs. This is the classic BSS-vendor pattern:
+    certified, standards-conformant interfaces that are nonetheless invisible
+    to any developer outside a licensed operator deployment.
+
+    Bottom line: the channel to developers is a carrier or a channel partner,
+    never Mavenir. Mavenir builds the API exposure layer for a market it does
+    not sell APIs into.
+  developerPortal:
+    exists: false
+    url: ''
+    verdict: >-
+      No developer portal of any kind. Not a login wall and not a marketing
+      landing page — the surface simply does not exist.
+    probes:
+    - url: https://mavenir.com
+      status: 200
+      note: Redirects to https://www.mavenir.com/ — corporate marketing site.
+    - url: https://developer.mavenir.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://developers.mavenir.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://docs.mavenir.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://api.mavenir.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://apis.mavenir.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://opengateway.mavenir.com
+      status: 000
+      note: DNS does not resolve. Carrier Open Gateway subdomain pattern probed and absent.
+    - url: https://nef.mavenir.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://exposure.mavenir.com
+      status: 000
+      note: DNS does not resolve.
+    - url: https://www.mavenir.com/developer
+      status: 404
+    - url: https://www.mavenir.com/developers
+      status: 404
+    - url: https://www.mavenir.com/api
+      status: 404
+    - url: https://www.mavenir.com/open-gateway
+      status: 404
+    - url: https://partners.mavenir.com
+      status: 200
+      note: Resolves to an Azure redirection host and lands back on https://www.mavenir.com/ — no partner API surface.
+    - url: https://support.mavenir.com
+      status: 307
+      note: >-
+        Redirects to https://adfs.mavex.mavenir.com/adfs/ls?... — an ADFS SSO
+        login wall for existing customers. Support portal, not a developer
+        portal. Nothing readable anonymously.
+    - url: https://www.mavenir.com/openapi.json
+      status: 404
+    - url: https://www.mavenir.com/swagger.json
+      status: 404
+    - url: https://www.mavenir.com/api-docs
+      status: 404
+    - url: https://www.mavenir.com/.well-known/openid-configuration
+      status: 404
+    - url: https://www.mavenir.com/.well-known/oauth-authorization-server
+      status: 404
+    - url: https://www.mavenir.com/sitemap_index.xml
+      status: 200
+      note: >-
+        Full sitemap enumerated (86 pages, 360 press releases, 194 resources).
+        Zero developer, docs, API-reference or Open Gateway pages exist.
+  downloadableSpecs:
+    firstPartyHosted: 0
+    harvested: 2
+    note: >-
+      Mavenir hosts no specification. Both harvested specs are Mavenir-authored
+      contributions living in the CAMARA API Backlog repository under the Linux
+      Foundation, downloaded verbatim with provenance recorded below.
+    specs:
+    - file: openapi/mavenir-byon-call-handling-openapi.yml
+      title: Bring Your Own Number (BYON) call handling API (VVOIP Service)
+      openapiVersion: 3.0.0
+      operations: 4
+      paths:
+      - POST /sessions
+      - GET /sessions/{sessionId}
+      - DELETE /sessions/{sessionId}
+      - PUT /sessions/{sessionId}/status
+      sourceURL: https://raw.githubusercontent.com/camaraproject/APIBacklog/main/documentation/SupportingDocuments/BYON-CallHandling-Service.yaml
+      httpStatus: 200
+      bytes: 21807
+      fetched: '2026-07-25'
+      attribution: >-
+        info.contact.email is contact@mavenir.com; Apache 2.0. Mavenir-authored,
+        CAMARA-hosted. Server is a templated {apiRoot} defaulting to
+        http://localhost:9091 — a reference definition, not a live endpoint.
+    - file: openapi/mavenir-byon-racm-openapi.yml
+      title: Bring Your Own Number (BYON) Registration and Connectivity Management (RACM) Service APIs
+      openapiVersion: 3.0.0
+      operations: 4
+      paths:
+      - POST /session
+      - PUT /session/{sessionId}
+      - DELETE /session/{sessionId}
+      - POST /push
+      sourceURL: https://raw.githubusercontent.com/camaraproject/APIBacklog/main/documentation/SupportingDocuments/BYON-RACM-Service.yaml
+      httpStatus: 200
+      bytes: 11485
+      fetched: '2026-07-25'
+      attribution: >-
+        Companion to the BYON call handling definition, submitted with it into
+        the CAMARA API Backlog SupportingDocuments folder. Describes client
+        registration and connectivity toward an MNO IMS network. Templated
+        {apiRoot} server defaulting to http://localhost:9091.
+  camara:
+    posture: >-
+      Active CAMARA contributor and co-maintainer, not a CAMARA API exposer —
+      Mavenir builds the NEF/exposure and BSS layer operators use to launch
+      CAMARA APIs, and ships nothing callable itself.
+    isPressReleaseOnly: false
+    pressReleaseNote: >-
+      This is explicitly NOT a press-release-only posture. The evidence is code
+      and governance artifacts in the camaraproject GitHub organization,
+      independent of any Mavenir marketing claim.
+    participant: true
+    participantEvidence: >-
+      camaraproject/Governance PARTICIPANTS.MD lists eleven Mavenir
+      individuals: Dejan Leskaroski, Hardik Gondalia, Jane Shen, Manish
+      Panchmatia, Michal Sedivy, Neeraj Dahiya, Pradeep Achar Pushpa, Sushanth
+      Hegde, Tomas Holubec and Viswanath Krishnamurthy.
+    landscapeEntry: >-
+      camaraproject/camara-landscape landscape.yml lists Mavenir with
+      homepage_url https://www.mavenir.com/ under "Solution Provider / Network
+      Capability Solution Providers".
+    maintainership: >-
+      Mavenir engineers Sushanth Hegde (@sushanthmavenir) and Pradeep Achar
+      Pushpa (@pradeepachar-mavenir) are listed in camaraproject/WebRTC
+      MAINTAINERS.MD, and @pradeepachar-mavenir is a default CODEOWNER for the
+      whole repository.
+    backlogSupporter: >-
+      camaraproject/APIBacklog APIbacklog.md records the WebRTC API with
+      Telefónica as owner and supporters "GSMA-OGW, Mavenir, Orange,
+      Telefónica, TMUS, Vodafone".
+    apisWithEvidence:
+    - WebRTC Call Handling (camaraproject/WebRTC webrtc-call-handling, r2.2 v0.3.0)
+    - WebRTC Events / Subscriptions (camaraproject/WebRTC webrtc-events-subscriptions)
+    - WebRTC Registration (camaraproject/WebRTC webrtc-registration)
+    commercialCamaraApisExposed: []
+    commercialCamaraApisNote: >-
+      No evidence was found that Mavenir exposes any of the commercial CAMARA
+      APIs — Number Verification, SIM Swap, Device Location / Location
+      Verification, Device Status / Reachability, Quality on Demand, Carrier
+      Billing, KYC Match, Anti-fraud / Scam Signal, Device Swap or Population
+      Density. Mavenir is a supplier to the operators who do.
+    note: >-
+      The three WebRTC definitions are CAMARA-owned artifacts that Mavenir
+      co-maintains. They were deliberately NOT copied into this repository's
+      openapi/ directory, because they are the standards body's specifications
+      and not Mavenir's published API surface.
+  openGateway:
+    memberAsOperator: false
+    note: >-
+      GSMA Open Gateway is an operator commitment layer and Mavenir is not an
+      operator, so it does not and cannot appear on the GSMA operator list.
+      Mavenir's connection is as an enabling vendor. Its 2024-12-18 press
+      release with Spry Fox Networks states that Spry Fox's "QP Cloud MONET
+      (QPCM) is the first Channel Partner Solution to become certified with
+      Open Gateway API Certification, providing out-of-the-box implementation
+      of several CAMARA and Custom APIs", and that "Mavenir's Combo NEF/SCEF
+      (Network Exposure Function and Service Capability Exposure Function)
+      provides exposure of standard defined network APIs to third-party
+      applications via QPCM". The certification belongs to the partner, not to
+      Mavenir.
+    aduna: >-
+      No evidence found of any Mavenir relationship with Aduna, the
+      Ericsson-led carrier joint venture. Mavenir reaches the market through
+      its own operator customers and through channel partners such as Spry Fox
+      Networks.
+  tmForum:
+    certified: true
+    certifications:
+    - level: Platinum
+      product: Mavenir Digital Enablement (MDE) — BSS Platform
+      apiCount: 20
+      date: '2023-09-20'
+      source: https://www.mavenir.com/press-releases/mavenir-achieves-platinum-open-api-status-with-landmark-20-open-apis-certified-by-tm-forum/
+      note: >-
+        The announcement does not itemize the 20 TMF numbers. Do not infer
+        them. TM Forum's certifications-awarded directory returned HTTP 403 to
+        anonymous fetch on the review date.
+    - level: Silver
+      product: Mavenir cloud-native BSS suite
+      apiCount: 5
+      date: '2022-10-06'
+      source: https://www.mavenir.com/press-releases/mavenirs-cloud-native-business-support-system-suite-achieves-tm-forums-open-api-silver-certification/
+      apis:
+      - TMF620 Product Catalog Management
+      - TMF622 Product Ordering
+      - TMF629 Customer Management
+      - TMF632 Party Management
+      - TMF667 Document Management
+    catalyst: >-
+      Mavenir has also run a TM Forum Catalyst on dynamic network slicing
+      (eCoSoft eHealth program), per its own press release index.
+  threeGppExposure:
+    nef: true
+    scef: true
+    note: >-
+      Mavenir sells a Combo NEF/SCEF product, confirmed in the Spry Fox
+      Networks press release, and publishes a resource titled "Monetizing 5G SA
+      with the Network Exposure Function" describing exposure of 5G SA
+      capability to third-party applications with usage-based charging and
+      tiered QoS pricing. No interface documentation, API list or endpoint is
+      published anywhere public.
+    edgeAndSlicing: >-
+      MEC, private networks / CBRS, an Intelligent IoT Platform (IIoTP) and
+      network slicing are all productized (mavenir.com/portfolio/mavedge/,
+      /solutions/network-automation/), with no public API surface for any of
+      them.
+  auth:
+    schemes:
+    - scheme: HTTP Bearer
+      where: >-
+        components.securitySchemes.BearerAuth in both harvested Mavenir BYON
+        definitions.
+    - scheme: OpenID Connect
+      where: >-
+        components.securitySchemes type openIdConnect in the CAMARA WebRTC
+        definitions Mavenir co-maintains, with a placeholder
+        openIdConnectUrl of https://example.com/.well-known/openid-configuration.
+    ciba: false
+    cibaNote: >-
+      CIBA (Client-Initiated Backchannel Authentication) does NOT appear. It is
+      absent from both Mavenir-authored BYON definitions and from all three
+      CAMARA WebRTC definitions Mavenir co-maintains. No CIBA reference was
+      found anywhere on mavenir.com.
+    wellKnown: >-
+      Neither /.well-known/openid-configuration nor
+      /.well-known/oauth-authorization-server is served on www.mavenir.com
+      (both 404).
+    firstPartyAuth: >-
+      Mavenir operates no public authorization server. Access to any Mavenir
+      software is through a licensed deployment or the ADFS-gated customer
+      support portal.
+  webhooksAndEvents:
+    publicCatalog: false
+    asyncapi: false
+    note: >-
+      No public webhook or event catalog and no AsyncAPI document. The closest
+      real artifact is the CloudEvents-based subscription model in the CAMARA
+      WebRTC events specification Mavenir co-maintains — a standards artifact,
+      not a Mavenir product surface. The harvested BYON RACM definition does
+      include a POST /push operation for a client push channel.
+  sdks:
+    firstParty: []
+    note: >-
+      No first-party SDK found. github.com/mavenir returns 200 but exposes no
+      public repositories (GitHub org and repo APIs both return 404 to
+      authenticated queries; a code search over org:mavenir returns zero
+      results). No packages on PyPI (pypi.org/simple/mavenir/ → 404), none on
+      SwaggerHub (owner=mavenir → totalCount 0), and no first-party npm
+      organization — an npm text search for "mavenir" surfaces only a personal
+      package published from an @mavenir.com employee address, which is not a
+      company SDK.
+  postman:
+    publicWorkspace: false
+    note: No public Postman workspace found for Mavenir.
+  graphql:
+    exists: false
+    note: No GraphQL surface advertised or discovered.
+  productFamily:
+    note: >-
+      Segmentation taken faithfully from mavenir.com/portfolio/ as published.
+    families:
+    - name: MAVair
+      scope: vRAN / Open RAN, small cells, non-terrestrial network (NTN)
+    - name: MAVcore
+      scope: Converged packet core, cloud-native IMS, messaging solutions
+    - name: MAVapps
+      scope: >-
+        Mavenir Digital Enablement (MDE) BSS and converged charging, fraud and
+        security (SpamShield, CallShield, fraud management, signaling security,
+        EIR)
+    - name: MAVedge
+      scope: MEC, private networks, CBRS/OnGo, Intelligent IoT Platform (IIoTP)
+    - name: MAVscale
+      scope: >-
+        Webscale platform, cloud-native automation, AI/analytics, RAN
+        Intelligent Controller (RIC), Network Intelligence as a Service
+  transports:
+  - protocol: REST
+    scheme: https
+    documented: true
+    note: >-
+      Documented only in the two Mavenir-authored OpenAPI definitions
+      contributed to CAMARA; no publicly documented Mavenir-hosted base URL
+      exists.
+  - protocol: WebSocket
+    scheme: wss
+    documented: false
+    note: No WebSocket endpoint documented by Mavenir.
+  - protocol: GraphQL
+    documented: false
+  - protocol: gRPC
+    documented: false
+    note: No published .proto files found.
+sources:
+- url: https://www.mavenir.com/
+  type: Website
+  status: 200
+  note: Corporate marketing site. No developer navigation, no API navigation.
+- url: https://www.mavenir.com/sitemap_index.xml
+  type: Sitemap
+  status: 200
+  note: Enumerated to confirm the absence of any developer or API documentation page.
+- url: https://support.mavenir.com
+  type: SupportPortal
+  status: 307
+  note: ADFS SSO login wall at adfs.mavex.mavenir.com. Customer support, not developers.
+- url: https://www.mavenir.com/portfolio/mavapps/mavenir-digital-enablement-bss/
+  type: Documentation
+  status: 200
+  note: >-
+    States "Platinum Open API status with 20+ Open APIs certified by TM Forum".
+    No TMF numbers, no API reference, no download.
+- url: https://www.mavenir.com/press-releases/mavenir-achieves-platinum-open-api-status-with-landmark-20-open-apis-certified-by-tm-forum/
+  type: PressRelease
+  status: 200
+  note: Platinum, MDE BSS, 20 certified TM Forum Open APIs, 2023-09-20.
+- url: https://www.mavenir.com/press-releases/mavenirs-cloud-native-business-support-system-suite-achieves-tm-forums-open-api-silver-certification/
+  type: PressRelease
+  status: 200
+  note: Silver, 2022-10-06, TMF620/622/629/632/667 named explicitly.
+- url: https://www.mavenir.com/press-releases/mavenir-and-spry-fox-networks-sfn-announce-strategic-partnership-to-accelerate-api-monetization-in-the-telecom-industry/
+  type: PressRelease
+  status: 200
+  note: >-
+    2024-12-18. Source of the Combo NEF/SCEF claim and of the Open Gateway API
+    Certification held by the channel partner rather than by Mavenir.
+- url: https://www.mavenir.com/resources/monetizing-5g-sa-with-the-network-exposure-function/
+  type: Resource
+  status: 200
+  note: NEF monetization video summary. No technical API detail.
+- url: https://github.com/camaraproject/Governance/blob/main/PARTICIPANTS.MD
+  type: Standards
+  note: Eleven Mavenir individuals listed as CAMARA participants.
+- url: https://github.com/camaraproject/WebRTC/blob/main/MAINTAINERS.MD
+  type: Standards
+  note: Two Mavenir engineers listed as maintainers of the CAMARA WebRTC repository.
+- url: https://github.com/camaraproject/WebRTC/blob/main/CODEOWNERS
+  type: Standards
+  note: "@pradeepachar-mavenir is a default CODEOWNER for the whole repository."
+- url: https://github.com/camaraproject/camara-landscape/blob/main/landscape.yml
+  type: Standards
+  note: Mavenir categorized as a Network Capability Solution Provider in the CAMARA landscape.
+- url: https://github.com/camaraproject/APIBacklog/blob/main/documentation/APIbacklog.md
+  type: Standards
+  note: Mavenir listed as a supporter of the WebRTC API alongside GSMA-OGW and four carriers.
+- url: https://raw.githubusercontent.com/camaraproject/APIBacklog/main/documentation/SupportingDocuments/BYON-CallHandling-Service.yaml
+  type: OpenAPI
+  status: 200
+  note: Harvested verbatim 2026-07-25 to openapi/mavenir-byon-call-handling-openapi.yml.
+- url: https://raw.githubusercontent.com/camaraproject/APIBacklog/main/documentation/SupportingDocuments/BYON-RACM-Service.yaml
+  type: OpenAPI
+  status: 200
+  note: Harvested verbatim 2026-07-25 to openapi/mavenir-byon-racm-openapi.yml.
+- url: https://www.tmforum.org/oda/open-apis/directory/conformance-certified
+  type: Certification
+  status: 403
+  note: >-
+    TM Forum's conformance directory refused anonymous fetch, so the 20
+    Platinum-tier TMF numbers could not be independently itemized.
