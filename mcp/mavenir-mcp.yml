@@ -2,17 +2,14 @@ generated: '2026-07-25'
 method: derived
 status: candidate
 source: openapi/mavenir-byon-call-handling-openapi.yml, openapi/mavenir-byon-racm-openapi.yml
-note: >-
-  Mavenir publishes no hosted or remote MCP server. Searched mavenir.com (whole
-  sitemap), the github.com/mavenir organization (no public repositories), npm
-  (@modelcontextprotocol and text search) and the public MCP registries — no
-  result. This is a CANDIDATE tool surface derived mechanically from the two
-  Mavenir-authored BYON OpenAPI definitions contributed to the CAMARA API Backlog.
-  No MCP endpoint is implied to exist, and no Mavenir-hosted REST endpoint exists
-  either — both specs template {apiRoot} with a http://localhost:9091 default, so
-  a client must be pointed at an operator's WebRTC Gateway deployment. Every
-  source_operation below was verified against the spec it names; the RACM spec
-  declares no operationIds, so those tools are bound by method + path.
+note: Mavenir publishes no hosted or remote MCP server. Searched mavenir.com (whole sitemap), the github.com/mavenir
+  organization (no public repositories), npm (@modelcontextprotocol and text search) and the public MCP
+  registries — no result. This is a CANDIDATE tool surface derived mechanically from the two Mavenir-authored
+  BYON OpenAPI definitions contributed to the CAMARA API Backlog. No MCP endpoint is implied to exist,
+  and no Mavenir-hosted REST endpoint exists either — both specs template {apiRoot} with a http://localhost:9091
+  default, so a client must be pointed at an operator's WebRTC Gateway deployment. Every source_operation
+  below was verified against the spec it names; the RACM spec declares no operationIds, so those tools
+  are bound by method + path.
 server:
   name: mavenir-byon
   transport: http
@@ -22,10 +19,8 @@ server:
     type: http
     scheme: bearer
     artifact: authentication/mavenir-authentication.yml
-    note: >-
-      Both specs declare a single BearerAuth (http/bearer) scheme; operations
-      request the read and write scope strings. No authorization server is
-      published by Mavenir.
+    note: Both specs declare a single BearerAuth (http/bearer) scheme; operations request the read and
+      write scope strings. No authorization server is published by Mavenir.
 tool_count: 8
 tools:
 - name: create_vvoip_session
@@ -72,3 +67,9 @@ tools:
   path: /push
   source_operation: openapi/mavenir-byon-racm-openapi.yml#POST /push
   note: spec declares no operationId for this operation; operation-level server override present
+deployment:
+  mode: none
+  verified: derived
+  tools: 8
+  checked: '2026-08-12'
+  source: catalog MCP census

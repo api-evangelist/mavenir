@@ -1,0 +1,988 @@
+{
+  "item": [
+    {
+      "id": "aad8ff16-8c84-437a-9b04-99d835a7f9f5",
+      "name": "Registration and Connection Management",
+      "description": {
+        "content": "APIs for Client to Register into MNO's IMS Network",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    },
+    {
+      "id": "3d82d19a-ac5d-4025-82b0-e0e6360f7712",
+      "name": "RACM",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "63e8718b-3c58-436b-a635-f74b68ca3b51",
+          "name": "Create RACM Session",
+          "request": {
+            "name": "Create RACM Session",
+            "description": {
+              "content": "Create RACM Session",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "session"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "API Root",
+                  "type": "any",
+                  "value": "{{apiRoot}}",
+                  "key": "apiRoot"
+                },
+                {
+                  "description": "The version of API to be used",
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                },
+                {
+                  "description": "User name allocated by the operator",
+                  "type": "any",
+                  "value": "{{userId}}",
+                  "key": "userId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Transaction ID associated with the request",
+                "key": "transactionId",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceId\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6d130077-383c-4882-9ad7-78394609ea32",
+              "name": "Ok",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "API Root",
+                      "type": "any",
+                      "value": "{{apiRoot}}",
+                      "key": "apiRoot"
+                    },
+                    {
+                      "description": "The version of API to be used",
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    },
+                    {
+                      "description": "User name allocated by the operator",
+                      "type": "any",
+                      "value": "{{userId}}",
+                      "key": "userId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Transaction ID associated with the request",
+                    "key": "transactionId",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deviceId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"connectionInformation\": {\n    \"clientId\": \"string\"\n  },\n  \"notificationChannelInformation\": {\n    \"channelURL\": \"string\"\n  },\n  \"resourceURL\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ab64d0b8-58bd-445b-b3ff-4223bd947ede",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "API Root",
+                      "type": "any",
+                      "value": "{{apiRoot}}",
+                      "key": "apiRoot"
+                    },
+                    {
+                      "description": "The version of API to be used",
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    },
+                    {
+                      "description": "User name allocated by the operator",
+                      "type": "any",
+                      "value": "{{userId}}",
+                      "key": "userId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Transaction ID associated with the request",
+                    "key": "transactionId",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deviceId\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"code\": \"INVALID_ARGUMENT\",\n  \"message\": \"Schema validation failed at  ...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "74373b2e-5d56-459a-88fb-ecdde6788ca6",
+          "name": "For sharing new AccessToken with WebRTC GW, the AccessToken is expected to be received from the Auth server.",
+          "request": {
+            "name": "For sharing new AccessToken with WebRTC GW, the AccessToken is expected to be received from the Auth server.",
+            "description": {
+              "content": "**The client shall use the resourceUrl supplied in the session creation request. There is no need of constructing the URL**",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "session",
+                ":sessionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sessionId",
+                  "description": "(Required) The sessionId assigned by the WebRTC GW RACM service"
+                },
+                {
+                  "description": "API Root",
+                  "type": "any",
+                  "value": "{{apiRoot}}",
+                  "key": "apiRoot"
+                },
+                {
+                  "description": "The version of API to be used",
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                },
+                {
+                  "description": "User name allocated by the operator",
+                  "type": "any",
+                  "value": "{{userId}}",
+                  "key": "userId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Transaction ID associated with the request",
+                "key": "transactionId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The Client ID assigned by WebRTC GW",
+                "key": "clientId",
+                "value": "<string>"
+              }
+            ],
+            "method": "PUT",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "9bc0f660-4091-4dbf-8e8e-d59039c7fafc",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    ":sessionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sessionId",
+                      "description": "(Required) The sessionId assigned by the WebRTC GW RACM service"
+                    },
+                    {
+                      "description": "API Root",
+                      "type": "any",
+                      "value": "{{apiRoot}}",
+                      "key": "apiRoot"
+                    },
+                    {
+                      "description": "The version of API to be used",
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    },
+                    {
+                      "description": "User name allocated by the operator",
+                      "type": "any",
+                      "value": "{{userId}}",
+                      "key": "userId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Transaction ID associated with the request",
+                    "key": "transactionId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Client ID assigned by WebRTC GW",
+                    "key": "clientId",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6772d1d9-2e06-4dc7-8494-4a3041af5271",
+          "name": "Delete Registration Session.",
+          "request": {
+            "name": "Delete Registration Session.",
+            "description": {
+              "content": "**The client shall use the resourceUrl supplied in the session creation request. There is no need of constructing the URL**",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "session",
+                ":sessionId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sessionId",
+                  "description": "(Required) The sessionId assigned by the WebRTC GW RACM service"
+                },
+                {
+                  "description": "API Root",
+                  "type": "any",
+                  "value": "{{apiRoot}}",
+                  "key": "apiRoot"
+                },
+                {
+                  "description": "The version of API to be used",
+                  "type": "any",
+                  "value": "{{apiVersion}}",
+                  "key": "apiVersion"
+                },
+                {
+                  "description": "User name allocated by the operator",
+                  "type": "any",
+                  "value": "{{userId}}",
+                  "key": "userId"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Transaction ID associated with the request",
+                "key": "transactionId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The Client ID assigned by WebRTC GW",
+                "key": "clientId",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "c2ba79d9-89eb-456e-ad07-4f7ec5b4dedf",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    ":sessionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sessionId",
+                      "description": "(Required) The sessionId assigned by the WebRTC GW RACM service"
+                    },
+                    {
+                      "description": "API Root",
+                      "type": "any",
+                      "value": "{{apiRoot}}",
+                      "key": "apiRoot"
+                    },
+                    {
+                      "description": "The version of API to be used",
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    },
+                    {
+                      "description": "User name allocated by the operator",
+                      "type": "any",
+                      "value": "{{userId}}",
+                      "key": "userId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Transaction ID associated with the request",
+                    "key": "transactionId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Client ID assigned by WebRTC GW",
+                    "key": "clientId",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6e702b8c-1c66-4517-999a-68777f7cdf07",
+              "name": "Session Not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "session",
+                    ":sessionId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sessionId",
+                      "description": "(Required) The sessionId assigned by the WebRTC GW RACM service"
+                    },
+                    {
+                      "description": "API Root",
+                      "type": "any",
+                      "value": "{{apiRoot}}",
+                      "key": "apiRoot"
+                    },
+                    {
+                      "description": "The version of API to be used",
+                      "type": "any",
+                      "value": "{{apiVersion}}",
+                      "key": "apiVersion"
+                    },
+                    {
+                      "description": "User name allocated by the operator",
+                      "type": "any",
+                      "value": "{{userId}}",
+                      "key": "userId"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Transaction ID associated with the request",
+                    "key": "transactionId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Client ID assigned by WebRTC GW",
+                    "key": "clientId",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 404,\n  \"code\": \"NOT_FOUND\",\n  \"message\": \"Unable to find the session with the provided Id parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "4c3d8c68-25c1-4a4a-9273-2ee396813694",
+      "name": "Push Token",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "5ca32ba7-d2c9-4600-bed0-a8ad993f8724",
+          "name": "Update device token",
+          "request": {
+            "name": "Update device token",
+            "description": {
+              "content": "User providing device token to network. This is an Optional API, the client could use any external mechanism to update the PNS server",
+              "type": "text/plain"
+            },
+            "url": {
+              "protocol": "http",
+              "path": [
+                "device",
+                "v1",
+                "{{deviceSessionId}}",
+                "push"
+              ],
+              "host": [
+                "swaggerhub",
+                "intinfra",
+                "com"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Transaction ID associated with the request",
+                "key": "transactionId",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) The Client ID assigned by WebRTC GW",
+                "key": "clientId",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deviceId\": \"<string>\",\n  \"OSName\": \"<string>\",\n  \"OSVersion\": \"<string>\",\n  \"appName\": \"<string>\",\n  \"BundleID\": \"<string>\",\n  \"WebToken\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ea8a00e9-4ef8-4cea-8e5e-2ed4e5cdc7f6",
+              "name": "Device token accepted",
+              "originalRequest": {
+                "url": {
+                  "protocol": "http",
+                  "path": [
+                    "device",
+                    "v1",
+                    "{{deviceSessionId}}",
+                    "push"
+                  ],
+                  "host": [
+                    "swaggerhub",
+                    "intinfra",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Transaction ID associated with the request",
+                    "key": "transactionId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Client ID assigned by WebRTC GW",
+                    "key": "clientId",
+                    "value": "<string>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deviceId\": \"Device Id provided by the client\",\n  \"appName\": \"Application Name\",\n  \"BundleID\": \"Bundle ID assigned to the application\",\n  \"WebToken\": \"RegistrationToken\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0b64ebac-d62f-4205-9f00-360d2359634b",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "protocol": "http",
+                  "path": [
+                    "device",
+                    "v1",
+                    "{{deviceSessionId}}",
+                    "push"
+                  ],
+                  "host": [
+                    "swaggerhub",
+                    "intinfra",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Transaction ID associated with the request",
+                    "key": "transactionId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Client ID assigned by WebRTC GW",
+                    "key": "clientId",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deviceId\": \"Device Id provided by the client\",\n  \"appName\": \"Application Name\",\n  \"BundleID\": \"Bundle ID assigned to the application\",\n  \"WebToken\": \"RegistrationToken\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 400,\n  \"code\": \"INVALID_ARGUMENT\",\n  \"message\": \"Schema validation failed at  ...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ceaf7ab-80c5-43e1-8d25-9cd320ce1e4f",
+              "name": "Device not authorized",
+              "originalRequest": {
+                "url": {
+                  "protocol": "http",
+                  "path": [
+                    "device",
+                    "v1",
+                    "{{deviceSessionId}}",
+                    "push"
+                  ],
+                  "host": [
+                    "swaggerhub",
+                    "intinfra",
+                    "com"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Transaction ID associated with the request",
+                    "key": "transactionId",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) The Client ID assigned by WebRTC GW",
+                    "key": "clientId",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deviceId\": \"Device Id provided by the client\",\n  \"appName\": \"Application Name\",\n  \"BundleID\": \"Bundle ID assigned to the application\",\n  \"WebToken\": \"RegistrationToken\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": 403,\n  \"code\": \"PERMISSION_DENIED\",\n  \"message\": \"Operation not allowed: ...\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "API Root",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "http://localhost:9091",
+      "key": "apiRoot"
+    },
+    {
+      "description": {
+        "content": "The version of API to be used",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "v1",
+      "key": "apiVersion"
+    },
+    {
+      "description": {
+        "content": "User name allocated by the operator",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "userId",
+      "key": "userId"
+    },
+    {
+      "type": "string",
+      "value": "{{apiRoot}}/racm/{{apiVersion}}/{{userId}}",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "32178c75-29cb-4d99-84fd-3f80d60760b2",
+    "name": "Bring Your Own Number (BYON) Registration and Connectivity Management (RACM) Service APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "This API provide REST API for clients to manage Registration and Connectivity (RACM) towards MNO's IMS Network.",
+      "type": "text/plain"
+    }
+  }
+}

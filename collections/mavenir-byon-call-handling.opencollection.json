@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bring Your Own Number (BYON) call handling API (VVOIP Service)",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OneToOneCall",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Creates voice and/or video session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiRoot}/vvoip/{apiVersion}/{userId}/sessions",
+            "headers": [
+              {
+                "name": "transactionId",
+                "value": ""
+              },
+              {
+                "name": "clientId",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a voice and/or video session"
+        },
+        {
+          "info": {
+            "name": "Get the vvoip session information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{apiRoot}/vvoip/{apiVersion}/{userId}/sessions/:sessionId",
+            "headers": [
+              {
+                "name": "transactionId",
+                "value": ""
+              },
+              {
+                "name": "clientId",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "The sessionId assigned by the WebRTC GW for the vvoip session"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get the VVoIP Session description based on sessionId.\n\n**Client shall use the resourceUrl supplied in the session creation response (origination) or in the invitation notification (termination)**\n"
+        },
+        {
+          "info": {
+            "name": "Cancel or Terminate the vvoip session",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{apiRoot}/vvoip/{apiVersion}/{userId}/sessions/:sessionId",
+            "headers": [
+              {
+                "name": "transactionId",
+                "value": ""
+              },
+              {
+                "name": "clientId",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "The sessionId assigned by the WebRTC GW for the vvoip session"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Cancel a 1-1 vvoip session (as originator),\nDecline a 1-1 vvoip session (as receiver),\nTerminate a 1-1 an ongoing vvoip session\n\n**Client shall use the resourceUrl supplied in the session creation response (origination) or in the invitation notification (termination)**'\n"
+        },
+        {
+          "info": {
+            "name": "Update the status of the vvoip session",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{apiRoot}/vvoip/{apiVersion}/{userId}/sessions/:sessionId/status",
+            "headers": [
+              {
+                "name": "transactionId",
+                "value": ""
+              },
+              {
+                "name": "clientId",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "The sessionId assigned by the WebRTC GW for the vvoip session"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the status of the vvoip session, this may include updating SDP media\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

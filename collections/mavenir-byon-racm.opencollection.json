@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bring Your Own Number (BYON) Registration and Connectivity Management (RACM) Service APIs",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "RACM",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create RACM Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiRoot}/racm/{apiVersion}/{userId}/session",
+            "headers": [
+              {
+                "name": "transactionId",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create RACM Session"
+        },
+        {
+          "info": {
+            "name": "For sharing new AccessToken with WebRTC GW, the AccessToken is expected to be received from the Auth server.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{apiRoot}/racm/{apiVersion}/{userId}/session/:sessionId",
+            "headers": [
+              {
+                "name": "transactionId",
+                "value": ""
+              },
+              {
+                "name": "clientId",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "The sessionId assigned by the WebRTC GW RACM service"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "**The client shall use the resourceUrl supplied in the session creation request. There is no need of constructing the URL**"
+        },
+        {
+          "info": {
+            "name": "Delete Registration Session.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{apiRoot}/racm/{apiVersion}/{userId}/session/:sessionId",
+            "headers": [
+              {
+                "name": "transactionId",
+                "value": ""
+              },
+              {
+                "name": "clientId",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "sessionId",
+                "value": "",
+                "type": "path",
+                "description": "The sessionId assigned by the WebRTC GW RACM service"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "**The client shall use the resourceUrl supplied in the session creation request. There is no need of constructing the URL**"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Push Token",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Update device token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{apiRoot}/racm/{apiVersion}/{userId}/push",
+            "headers": [
+              {
+                "name": "transactionId",
+                "value": ""
+              },
+              {
+                "name": "clientId",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "User providing device token to network. This is an Optional API, the client could use any external mechanism to update the PNS server"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
