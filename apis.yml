@@ -1,5 +1,7 @@
 aid: mavenir
 url: https://raw.githubusercontent.com/api-evangelist/mavenir/refs/heads/main/apis.yml
+x-api-posture: no-product-api
+x-api-posture-basis: observed
 name: Mavenir
 kind: company
 description: >-
