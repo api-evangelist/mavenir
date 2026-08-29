@@ -26,6 +26,18 @@ description: >-
   Platinum conformance with 20+ certified Open APIs on the MDE BSS platform.
   Developers reach Mavenir-powered capability only through a carrier or through
   a channel partner such as Spry Fox Networks, never directly.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
 - Telecommunications
