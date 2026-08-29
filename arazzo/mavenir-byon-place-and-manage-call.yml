@@ -12,8 +12,8 @@ info:
     companion RACM spec is not referenced as a source because it declares no
     operationIds.
 sourceDescriptions:
-- name: byonCallHandling
-  url: ../openapi/mavenir-byon-call-handling-openapi.yml
+- name: onetoonecallApi
+  url: ../openapi/mavenir-onetoonecall-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: place-and-manage-vvoip-call
@@ -55,7 +55,7 @@ workflows:
   steps:
   - stepId: create-session
     description: Originate the 1-1 voice/video session with an SDP offer.
-    operationId: $sourceDescriptions.byonCallHandling.postSessions
+    operationId: $sourceDescriptions.onetoonecallApi.postSessions
     parameters:
     - name: transactionId
       in: header
@@ -80,7 +80,7 @@ workflows:
       status: $response.body#/status
   - stepId: get-session
     description: Read the session back. Use the resourceUrl from step 1 rather than building a URL.
-    operationId: $sourceDescriptions.byonCallHandling.getSessionDetailsById
+    operationId: $sourceDescriptions.onetoonecallApi.getSessionDetailsById
     parameters:
     - name: transactionId
       in: header
@@ -99,7 +99,7 @@ workflows:
     description: >-
       Move the session to Connected with the SDP answer (SIP responseCode 200).
       Mirrors the exMT200 example in the spec.
-    operationId: $sourceDescriptions.byonCallHandling.postSessionStatus
+    operationId: $sourceDescriptions.onetoonecallApi.postSessionStatus
     parameters:
     - name: transactionId
       in: header
@@ -123,7 +123,7 @@ workflows:
     description: >-
       Cancel, decline or terminate the session. SAFETY-CRITICAL — this drops a live
       call. See agentic-access/mavenir-agentic-access.yml.
-    operationId: $sourceDescriptions.byonCallHandling.deleteSessionById
+    operationId: $sourceDescriptions.onetoonecallApi.deleteSessionById
     parameters:
     - name: transactionId
       in: header

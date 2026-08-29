@@ -1,6 +1,6 @@
-generated: '2026-07-25'
-method: derived
-source: arazzo/*.yml
+x-generated: '2026-07-25'
+x-method: derived
+x-source: arazzo/*.yml
 workflows:
 - file: mavenir-byon-place-and-manage-call.yml
   workflowId: place-and-manage-vvoip-call
@@ -11,7 +11,7 @@ workflows:
     operationIds of the Mavenir BYON call handling definition. Not runnable against
     Mavenir — requires an operator's WebRTC Gateway deployment.
   api: openapi/mavenir-byon-call-handling-openapi.yml
-note: >-
+x-note: >-
   Only the call handling definition can back an Arazzo workflow. The companion BYON
   RACM definition declares no operationIds, so no verified step could reference it
   without inventing identifiers.
