@@ -1,0 +1,135 @@
+openapi: 3.2.0
+info:
+  title: Bring Your Own Number (BYON) Registration and Connectivity Management (RACM) Service Push Token API
+  description: This API provide REST API for clients to manage Registration and Connectivity (RACM) towards MNO's IMS Network.
+  version: 1.0.0
+servers:
+- url: '{apiRoot}/racm/{apiVersion}/{userId}'
+  description: APIs to manage Client Registration and Connection
+  variables:
+    apiRoot:
+      description: API Root
+      default: http://localhost:9091
+    apiVersion:
+      description: The version of API to be used
+      default: v1
+    userId:
+      description: User name allocated by the operator
+      default: userId
+tags:
+- name: Push Token
+paths:
+  /push:
+    post:
+      tags:
+      - Push Token
+      summary: Update device token
+      description: User providing device token to network. This is an Optional API, the client could use any external mechanism to update the PNS server
+      parameters:
+      - name: transactionId
+        in: header
+        description: Transaction ID associated with the request
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: clientId
+        in: header
+        description: The Client ID assigned by WebRTC GW
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushInformation'
+            examples:
+              BrowserClients:
+                value:
+                  deviceId: Device Id provided by the client
+                  appName: Application Name
+                  BundleID: Bundle ID assigned to the application
+                  WebToken: RegistrationToken
+        required: true
+      responses:
+        '200':
+          description: Device token accepted
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '403':
+          $ref: '#/components/responses/Generic403'
+      security:
+      - BearerAuth:
+        - read
+        - write
+      servers:
+      - url: http://swaggerhub.intinfra.com/device/v1/{deviceSessionId}
+components:
+  schemas:
+    ErrorInfo:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code returned along with this error response
+        code:
+          type: string
+          description: Code given to this error
+        message:
+          type: string
+          description: Detailed error description
+      required:
+      - status
+      - code
+      - message
+    PushInformation:
+      required:
+      - deviceId
+      properties:
+        deviceId:
+          type: string
+          description: Indicates the device id in UUID format.
+        OSName:
+          type: string
+          description: Indicates the device os type.
+        OSVersion:
+          type: string
+          description: Indicates the device os version. <os name> SP <os vserion>
+        appName:
+          type: string
+          description: Indicates the application given name.
+        BundleID:
+          type: string
+          description: Indicates the application bundle-id.
+        WebToken:
+          type: string
+          description: This is the registration token for sending notifications using Web Push FCM interface. Currently, notifications to Chrome Browser is supported. In the future, desktop electron app and other browsers would be supported. In such case, the same WebToken param would hold the registration token of their instance on respective platform.
+  responses:
+    Generic400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Schema validation failed at  ...
+    Generic403:
+      description: Device not authorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 403
+            code: PERMISSION_DENIED
+            message: 'Operation not allowed: ...'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
