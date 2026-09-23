@@ -1,0 +1,28 @@
+{
+  "provider": "mavenir",
+  "sources": [
+    "_original/mavenir-byon-call-handling-openapi.yml",
+    "_original/mavenir-byon-racm-openapi.yml"
+  ],
+  "outputs": [
+    "mavenir-onetoonecall-api-openapi.yml",
+    "mavenir-push-token-api-openapi.yml",
+    "mavenir-racm-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "mavenir-byon-call-handling-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "mavenir-byon-racm-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "mavenir-byon-racm-openapi.yml: declared missing tag: Push Token",
+    "mavenir-byon-racm-openapi.yml: declared missing tag: RACM",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "mavenir-onetoonecall-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mavenir-push-token-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mavenir-racm-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

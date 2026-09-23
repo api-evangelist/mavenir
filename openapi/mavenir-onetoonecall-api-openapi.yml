@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Bring Your Own Number (BYON) call handling API (VVOIP Service) One To One Call API
+  title: Bring Your Own Number (BYON) call handling API (VVOIP…
   description: APIs for REST clients for 1-1 calling
   contact:
     email: contact@mavenir.com
@@ -84,9 +84,7 @@ paths:
       description: 'Get the VVoIP Session description based on sessionId.
 
 
-        **Client shall use the resourceUrl supplied in the session creation response (origination) or in the invitation notification (termination)**
-
-        '
+        **Client shall use the resourceUrl supplied in the session creation response (origination) or in the invitation notification (termination)**'
       operationId: getSessionDetailsById
       parameters:
       - name: transactionId
@@ -145,9 +143,7 @@ paths:
         Terminate a 1-1 an ongoing vvoip session
 
 
-        **Client shall use the resourceUrl supplied in the session creation response (origination) or in the invitation notification (termination)**''
-
-        '
+        **Client shall use the resourceUrl supplied in the session creation response (origination) or in the invitation notification (termination)**'''
       operationId: deleteSessionById
       parameters:
       - name: transactionId
@@ -196,9 +192,7 @@ paths:
       tags:
       - OneToOneCall
       summary: Update the status of the vvoip session
-      description: 'Update the status of the vvoip session, this may include updating SDP media
-
-        '
+      description: Update the status of the vvoip session, this may include updating SDP media
       operationId: postSessionStatus
       parameters:
       - name: transactionId
@@ -256,6 +250,17 @@ paths:
         - write
 components:
   schemas:
+    WrtcsOffer:
+      type: object
+      properties:
+        sdp:
+          type: string
+          description: 'An inlined session description in SDP format [RFC4566].If XML syntax is used, the content of this element SHALL be embedded in a CDATA section
+
+            '
+      description: 'The offer, which MUST be present in a request from the application to the server to create a session. Note that the offer can be absent in a session created by the server as part of an offerless INVITE [RFC3261].
+
+        '
     ErrorInfo:
       type: object
       properties:
@@ -356,18 +361,17 @@ components:
       description: 'This type represents an answer in WebRTC Signaling. This element is not present in case there is no answer yet, or the session invitation has been declined by the Terminating Participant.This element MUST NOT be present in a request from the application to the server to create a session.
 
         '
-    WrtcsOffer:
-      type: object
-      properties:
-        sdp:
-          type: string
-          description: 'An inlined session description in SDP format [RFC4566].If XML syntax is used, the content of this element SHALL be embedded in a CDATA section
-
-            '
-      description: 'The offer, which MUST be present in a request from the application to the server to create a session. Note that the offer can be absent in a session created by the server as part of an offerless INVITE [RFC3261].
-
-        '
   responses:
+    Generic400:
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Schema validation failed at  ...
     SessionNotFound404:
       description: Session not found
       content:
@@ -378,6 +382,16 @@ components:
             status: 404
             code: NOT_FOUND
             message: Session Id does not exist
+    Generic403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 403
+            code: PERMISSION_DENIED
+            message: 'Operation not allowed: ...'
     Generic401:
       description: Unauthorized
       content:
@@ -408,26 +422,6 @@ components:
             status: 500
             code: INTERNAL
             message: 'Internal server error: ...'
-    Generic403:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 403
-            code: PERMISSION_DENIED
-            message: 'Operation not allowed: ...'
-    Generic400:
-      description: Invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: Schema validation failed at  ...
   examples:
     exMT200:
       value:
@@ -478,20 +472,6 @@ components:
 
               '
           responseCode: '200'
-    exVSIResponse:
-      value:
-        originatorAddress: tel:+817085852753
-        originatorName: 817085852753
-        receiverAddress: tel:+817085854000
-        receiverName: 817085854000
-        status: Initial
-        clientCorrelator: fda6e26d-e7c8-4596-870c-c083c0d39b2c
-        resourceURL: $url/sessions/0AEE1B58BAEEDA3EABA42B32EBB3DFE0DEAD3F90AE0CEB9EEB0C0F703E199FC00E7C6E648F50EE885FF0CE6C7E1CEE795EDD
-    exMT180:
-      value:
-        receiverSessionStatus:
-          status: Ringing
-          responseCode: '180'
     exMT183:
       value:
         receiverSessionStatus:
@@ -539,6 +519,20 @@ components:
 
               '
           responseCode: '183'
+    exMT180:
+      value:
+        receiverSessionStatus:
+          status: Ringing
+          responseCode: '180'
+    exVSIResponse:
+      value:
+        originatorAddress: tel:+817085852753
+        originatorName: 817085852753
+        receiverAddress: tel:+817085854000
+        receiverName: 817085854000
+        status: Initial
+        clientCorrelator: fda6e26d-e7c8-4596-870c-c083c0d39b2c
+        resourceURL: $url/sessions/0AEE1B58BAEEDA3EABA42B32EBB3DFE0DEAD3F90AE0CEB9EEB0C0F703E199FC00E7C6E648F50EE885FF0CE6C7E1CEE795EDD
   securitySchemes:
     BearerAuth:
       type: http

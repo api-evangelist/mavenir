@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Bring Your Own Number (BYON) Registration and Connectivity Management (RACM) Service Push Token API
+  title: Bring Your Own Number (BYON) Registration and Connectivity…
   description: This API provide REST API for clients to manage Registration and Connectivity (RACM) towards MNO's IMS Network.
   version: 1.0.0
 servers:
@@ -68,6 +68,8 @@ paths:
         - write
       servers:
       - url: http://swaggerhub.intinfra.com/device/v1/{deviceSessionId}
+      operationId: postPush
+      x-operation-id-source: derived
 components:
   schemas:
     ErrorInfo:

@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: Bring Your Own Number (BYON) Registration and Connectivity Management () Service RACM API
+  title: Bring Your Own Number (BYON) Registration and Connectivity…
   description: This API provide REST API for clients to manage Registration and Connectivity (RACM) towards MNO's IMS Network.
   version: 1.0.0
 servers:
@@ -24,7 +24,6 @@ paths:
       tags:
       - RACM
       summary: Create RACM Session
-      description: Create RACM Session
       parameters:
       - name: transactionId
         in: header
@@ -52,11 +51,13 @@ paths:
       - BearerAuth:
         - read
         - write
+      operationId: postSession
+      x-operation-id-source: derived
   /session/{sessionId}:
     put:
       tags:
       - RACM
-      summary: For sharing new AccessToken with WebRTC GW, the AccessToken is expected to be received from the Auth server.
+      summary: For sharing new AccessToken with WebRTC GW, the AccessToken is expected to be…
       description: '**The client shall use the resourceUrl supplied in the session creation request. There is no need of constructing the URL**'
       parameters:
       - name: transactionId
@@ -90,10 +91,12 @@ paths:
       - BearerAuth:
         - read
         - write
+      operationId: putSessionBySessionId
+      x-operation-id-source: derived
     delete:
       tags:
       - RACM
-      summary: Delete Registration Session.
+      summary: Delete Registration Session
       description: '**The client shall use the resourceUrl supplied in the session creation request. There is no need of constructing the URL**'
       parameters:
       - name: transactionId
@@ -129,8 +132,16 @@ paths:
       - BearerAuth:
         - read
         - write
+      operationId: deleteSessionBySessionId
+      x-operation-id-source: derived
 components:
   schemas:
+    ConnectionInformation:
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: The unique id assigned by WebRTC GW for identifying the association of device with WebRTC GW. The clients are required to include this value in clientId header.
     ErrorInfo:
       type: object
       properties:
@@ -147,23 +158,17 @@ components:
       - status
       - code
       - message
+    NotificationChannelInformation:
+      properties:
+        channelURL:
+          type: string
+          description: The channel url which client need to use for WebSocket creation.
     RacmRequest:
       type: object
       properties:
         deviceId:
           type: string
           description: The device-id of the client in UUID format.
-    ConnectionInformation:
-      type: object
-      properties:
-        clientId:
-          type: string
-          description: The unique id assigned by WebRTC GW for identifying the association of device with WebRTC GW. The clients are required to include this value in clientId header.
-    NotificationChannelInformation:
-      properties:
-        channelURL:
-          type: string
-          description: The channel url which client need to use for WebSocket creation.
     RacmResponse:
       type: object
       properties:
@@ -175,16 +180,6 @@ components:
           type: string
           description: The resource URL allocated by WebRTC GW representing the RACM session created. The sessionId assigned for RACM session is part of the url.
   responses:
-    NotFound404:
-      description: Session Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 404
-            code: NOT_FOUND
-            message: Unable to find the session with the provided Id parameters
     Generic400:
       description: Bad request
       content:
@@ -195,6 +190,16 @@ components:
             status: 400
             code: INVALID_ARGUMENT
             message: Schema validation failed at  ...
+    NotFound404:
+      description: Session Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 404
+            code: NOT_FOUND
+            message: Unable to find the session with the provided Id parameters
   securitySchemes:
     BearerAuth:
       type: http
