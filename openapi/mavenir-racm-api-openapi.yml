@@ -136,6 +136,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    NotificationChannelInformation:
+      properties:
+        channelURL:
+          type: string
+          description: The channel url which client need to use for WebSocket creation.
     ConnectionInformation:
       type: object
       properties:
@@ -158,11 +163,6 @@ components:
       - status
       - code
       - message
-    NotificationChannelInformation:
-      properties:
-        channelURL:
-          type: string
-          description: The channel url which client need to use for WebSocket creation.
     RacmRequest:
       type: object
       properties:
@@ -180,16 +180,6 @@ components:
           type: string
           description: The resource URL allocated by WebRTC GW representing the RACM session created. The sessionId assigned for RACM session is part of the url.
   responses:
-    Generic400:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: Schema validation failed at  ...
     NotFound404:
       description: Session Not found
       content:
@@ -200,6 +190,16 @@ components:
             status: 404
             code: NOT_FOUND
             message: Unable to find the session with the provided Id parameters
+    Generic400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Schema validation failed at  ...
   securitySchemes:
     BearerAuth:
       type: http
