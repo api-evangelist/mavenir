@@ -136,11 +136,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    NotificationChannelInformation:
-      properties:
-        channelURL:
-          type: string
-          description: The channel url which client need to use for WebSocket creation.
     ConnectionInformation:
       type: object
       properties:
@@ -169,6 +164,11 @@ components:
         deviceId:
           type: string
           description: The device-id of the client in UUID format.
+    NotificationChannelInformation:
+      properties:
+        channelURL:
+          type: string
+          description: The channel url which client need to use for WebSocket creation.
     RacmResponse:
       type: object
       properties:
