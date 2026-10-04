@@ -111,16 +111,6 @@ components:
           type: string
           description: This is the registration token for sending notifications using Web Push FCM interface. Currently, notifications to Chrome Browser is supported. In the future, desktop electron app and other browsers would be supported. In such case, the same WebToken param would hold the registration token of their instance on respective platform.
   responses:
-    Generic400:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: Schema validation failed at  ...
     Generic403:
       description: Device not authorized
       content:
@@ -131,6 +121,16 @@ components:
             status: 403
             code: PERMISSION_DENIED
             message: 'Operation not allowed: ...'
+    Generic400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Schema validation failed at  ...
   securitySchemes:
     BearerAuth:
       type: http

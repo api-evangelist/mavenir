@@ -135,50 +135,6 @@ paths:
       operationId: deleteSessionBySessionId
       x-operation-id-source: derived
 components:
-  schemas:
-    ConnectionInformation:
-      type: object
-      properties:
-        clientId:
-          type: string
-          description: The unique id assigned by WebRTC GW for identifying the association of device with WebRTC GW. The clients are required to include this value in clientId header.
-    ErrorInfo:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code returned along with this error response
-        code:
-          type: string
-          description: Code given to this error
-        message:
-          type: string
-          description: Detailed error description
-      required:
-      - status
-      - code
-      - message
-    NotificationChannelInformation:
-      properties:
-        channelURL:
-          type: string
-          description: The channel url which client need to use for WebSocket creation.
-    RacmRequest:
-      type: object
-      properties:
-        deviceId:
-          type: string
-          description: The device-id of the client in UUID format.
-    RacmResponse:
-      type: object
-      properties:
-        connectionInformation:
-          $ref: '#/components/schemas/ConnectionInformation'
-        notificationChannelInformation:
-          $ref: '#/components/schemas/NotificationChannelInformation'
-        resourceURL:
-          type: string
-          description: The resource URL allocated by WebRTC GW representing the RACM session created. The sessionId assigned for RACM session is part of the url.
   responses:
     Generic400:
       description: Bad request
@@ -200,6 +156,50 @@ components:
             status: 404
             code: NOT_FOUND
             message: Unable to find the session with the provided Id parameters
+  schemas:
+    ConnectionInformation:
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: The unique id assigned by WebRTC GW for identifying the association of device with WebRTC GW. The clients are required to include this value in clientId header.
+    RacmRequest:
+      type: object
+      properties:
+        deviceId:
+          type: string
+          description: The device-id of the client in UUID format.
+    NotificationChannelInformation:
+      properties:
+        channelURL:
+          type: string
+          description: The channel url which client need to use for WebSocket creation.
+    ErrorInfo:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code returned along with this error response
+        code:
+          type: string
+          description: Code given to this error
+        message:
+          type: string
+          description: Detailed error description
+      required:
+      - status
+      - code
+      - message
+    RacmResponse:
+      type: object
+      properties:
+        connectionInformation:
+          $ref: '#/components/schemas/ConnectionInformation'
+        notificationChannelInformation:
+          $ref: '#/components/schemas/NotificationChannelInformation'
+        resourceURL:
+          type: string
+          description: The resource URL allocated by WebRTC GW representing the RACM session created. The sessionId assigned for RACM session is part of the url.
   securitySchemes:
     BearerAuth:
       type: http
