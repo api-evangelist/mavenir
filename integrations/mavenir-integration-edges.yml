@@ -1,0 +1,26 @@
+edges:
+- partner_name: CAMARA
+  partner: camara-project
+  type: contract
+  channel: network-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://raw.githubusercontent.com/camaraproject/camara-landscape/main/landscape.yml
+  contract_reference:
+    register: CAMARA landscape (Linux Foundation CAMARA project)
+    spec_file: null
+    role: api-maintainer
+    tier: participating-organization
+    landscape_roles:
+    - Network Capability Solution Providers
+    registered_name: Mavenir
+    matched_domain: mavenir.com
+    api_families:
+    - WebRTC
+    api_families_basis: MAINTAINERS.MD (maintains, not implements)
+    detected_by: sweep-telco-network-apis.py
+    detected: '2026-10-12'
+generated: '2026-10-12'
+method: searched
+checked:
+- https://raw.githubusercontent.com/camaraproject/camara-landscape/main/landscape.yml
