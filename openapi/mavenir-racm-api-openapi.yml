@@ -135,27 +135,6 @@ paths:
       operationId: deleteSessionBySessionId
       x-operation-id-source: derived
 components:
-  responses:
-    Generic400:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: Schema validation failed at  ...
-    NotFound404:
-      description: Session Not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 404
-            code: NOT_FOUND
-            message: Unable to find the session with the provided Id parameters
   schemas:
     ConnectionInformation:
       type: object
@@ -163,17 +142,6 @@ components:
         clientId:
           type: string
           description: The unique id assigned by WebRTC GW for identifying the association of device with WebRTC GW. The clients are required to include this value in clientId header.
-    RacmRequest:
-      type: object
-      properties:
-        deviceId:
-          type: string
-          description: The device-id of the client in UUID format.
-    NotificationChannelInformation:
-      properties:
-        channelURL:
-          type: string
-          description: The channel url which client need to use for WebSocket creation.
     ErrorInfo:
       type: object
       properties:
@@ -190,6 +158,17 @@ components:
       - status
       - code
       - message
+    RacmRequest:
+      type: object
+      properties:
+        deviceId:
+          type: string
+          description: The device-id of the client in UUID format.
+    NotificationChannelInformation:
+      properties:
+        channelURL:
+          type: string
+          description: The channel url which client need to use for WebSocket creation.
     RacmResponse:
       type: object
       properties:
@@ -200,6 +179,27 @@ components:
         resourceURL:
           type: string
           description: The resource URL allocated by WebRTC GW representing the RACM session created. The sessionId assigned for RACM session is part of the url.
+  responses:
+    NotFound404:
+      description: Session Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 404
+            code: NOT_FOUND
+            message: Unable to find the session with the provided Id parameters
+    Generic400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Schema validation failed at  ...
   securitySchemes:
     BearerAuth:
       type: http
