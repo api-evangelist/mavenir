@@ -72,16 +72,6 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    Generic400:
-      description: Bad request
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: Schema validation failed at  ...
     Generic403:
       description: Device not authorized
       content:
@@ -92,6 +82,16 @@ components:
             status: 403
             code: PERMISSION_DENIED
             message: 'Operation not allowed: ...'
+    Generic400:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Schema validation failed at  ...
   schemas:
     PushInformation:
       required:

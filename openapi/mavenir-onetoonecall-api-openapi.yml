@@ -250,6 +250,71 @@ paths:
         - write
 components:
   schemas:
+    SessionStatus:
+      type: string
+      enum:
+      - Initial
+      - InProgress
+      - Ringing
+      - Proceeding
+      - Connected
+      - Terminated
+      - Hold
+      - Resume
+      - SessionCancelled
+      - Declined
+      - Failed
+      - Waiting
+      - NoAnswer
+      - NotReachable
+      - Busy
+    ReceiverSessionStatus:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/SessionStatus'
+        responseCode:
+          type: integer
+          description: 'Indicates corresponding SIP response code, mainly used for provisional responses (status set to “InProgress”, “Ringing”) Possible values are 180, 183, 200, if any other values are set, then the behavior is undefined or unknown. When the client sets the status as “Hold”, the responseCode element be set to 200. Web RTC gateway shall be use this to determins WebRTC GW if it''s a hold request or response to hold notification sent earlier.
+
+            '
+        offer:
+          $ref: '#/components/schemas/WrtcsOffer'
+        answer:
+          $ref: '#/components/schemas/WrtcsAnswer'
+        receiverName:
+          type: string
+          description: Name of the receiver
+        receiverAddress:
+          type: string
+          description: Address (e.g. 'sip' URI, 'tel' URI, 'acr' URI) of the receiver
+    WrtcsOffer:
+      type: object
+      properties:
+        sdp:
+          type: string
+          description: 'An inlined session description in SDP format [RFC4566].If XML syntax is used, the content of this element SHALL be embedded in a CDATA section
+
+            '
+      description: 'The offer, which MUST be present in a request from the application to the server to create a session. Note that the offer can be absent in a session created by the server as part of an offerless INVITE [RFC3261].
+
+        '
+    ErrorInfo:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: HTTP status code returned along with this error response
+        code:
+          type: string
+          description: Code given to this error
+        message:
+          type: string
+          description: Detailed error description
+      required:
+      - status
+      - code
+      - message
     VvoipSessionInformation:
       required:
       - originatorAddress
@@ -285,51 +350,6 @@ components:
           type: string
           description: Self referring URL. The resourceURL shall not be included in POST requests by the client, but must be included in the notifications from the WebRTC GW to client when a complete representation of the resource is embedded in the notification. The resourceURL must also be included in responses to any HTTP method that returns an entity body, and in PUT requests
           example: $url/{sessionId}
-    WrtcsOffer:
-      type: object
-      properties:
-        sdp:
-          type: string
-          description: 'An inlined session description in SDP format [RFC4566].If XML syntax is used, the content of this element SHALL be embedded in a CDATA section
-
-            '
-      description: 'The offer, which MUST be present in a request from the application to the server to create a session. Note that the offer can be absent in a session created by the server as part of an offerless INVITE [RFC3261].
-
-        '
-    SessionStatus:
-      type: string
-      enum:
-      - Initial
-      - InProgress
-      - Ringing
-      - Proceeding
-      - Connected
-      - Terminated
-      - Hold
-      - Resume
-      - SessionCancelled
-      - Declined
-      - Failed
-      - Waiting
-      - NoAnswer
-      - NotReachable
-      - Busy
-    ErrorInfo:
-      type: object
-      properties:
-        status:
-          type: integer
-          description: HTTP status code returned along with this error response
-        code:
-          type: string
-          description: Code given to this error
-        message:
-          type: string
-          description: Detailed error description
-      required:
-      - status
-      - code
-      - message
     WrtcsAnswer:
       type: object
       properties:
@@ -341,27 +361,77 @@ components:
       description: 'This type represents an answer in WebRTC Signaling. This element is not present in case there is no answer yet, or the session invitation has been declined by the Terminating Participant.This element MUST NOT be present in a request from the application to the server to create a session.
 
         '
-    ReceiverSessionStatus:
-      type: object
-      properties:
-        status:
-          $ref: '#/components/schemas/SessionStatus'
-        responseCode:
-          type: integer
-          description: 'Indicates corresponding SIP response code, mainly used for provisional responses (status set to “InProgress”, “Ringing”) Possible values are 180, 183, 200, if any other values are set, then the behavior is undefined or unknown. When the client sets the status as “Hold”, the responseCode element be set to 200. Web RTC gateway shall be use this to determins WebRTC GW if it''s a hold request or response to hold notification sent earlier.
-
-            '
-        offer:
-          $ref: '#/components/schemas/WrtcsOffer'
-        answer:
-          $ref: '#/components/schemas/WrtcsAnswer'
-        receiverName:
-          type: string
-          description: Name of the receiver
-        receiverAddress:
-          type: string
-          description: Address (e.g. 'sip' URI, 'tel' URI, 'acr' URI) of the receiver
+  responses:
+    SessionNotFound404:
+      description: Session not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 404
+            code: NOT_FOUND
+            message: Session Id does not exist
+    Generic503:
+      description: Service unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 503
+            code: UNAVAILABLE
+            message: Service unavailable
+    Generic403:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 403
+            code: PERMISSION_DENIED
+            message: 'Operation not allowed: ...'
+    Generic400:
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 400
+            code: INVALID_ARGUMENT
+            message: Schema validation failed at  ...
+    Generic500:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 500
+            code: INTERNAL
+            message: 'Internal server error: ...'
+    Generic401:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorInfo'
+          example:
+            status: 401
+            code: UNAUTHENTICATED
+            message: 'Authorization failed: ...'
   examples:
+    exVSIResponse:
+      value:
+        originatorAddress: tel:+817085852753
+        originatorName: 817085852753
+        receiverAddress: tel:+817085854000
+        receiverName: 817085854000
+        status: Initial
+        clientCorrelator: fda6e26d-e7c8-4596-870c-c083c0d39b2c
+        resourceURL: $url/sessions/0AEE1B58BAEEDA3EABA42B32EBB3DFE0DEAD3F90AE0CEB9EEB0C0F703E199FC00E7C6E648F50EE885FF0CE6C7E1CEE795EDD
     exMT200:
       value:
         receiverSessionStatus:
@@ -463,76 +533,6 @@ components:
         receiverSessionStatus:
           status: Ringing
           responseCode: '180'
-    exVSIResponse:
-      value:
-        originatorAddress: tel:+817085852753
-        originatorName: 817085852753
-        receiverAddress: tel:+817085854000
-        receiverName: 817085854000
-        status: Initial
-        clientCorrelator: fda6e26d-e7c8-4596-870c-c083c0d39b2c
-        resourceURL: $url/sessions/0AEE1B58BAEEDA3EABA42B32EBB3DFE0DEAD3F90AE0CEB9EEB0C0F703E199FC00E7C6E648F50EE885FF0CE6C7E1CEE795EDD
-  responses:
-    Generic503:
-      description: Service unavailable
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 503
-            code: UNAVAILABLE
-            message: Service unavailable
-    Generic403:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 403
-            code: PERMISSION_DENIED
-            message: 'Operation not allowed: ...'
-    Generic401:
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 401
-            code: UNAUTHENTICATED
-            message: 'Authorization failed: ...'
-    Generic500:
-      description: Internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 500
-            code: INTERNAL
-            message: 'Internal server error: ...'
-    Generic400:
-      description: Invalid input
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 400
-            code: INVALID_ARGUMENT
-            message: Schema validation failed at  ...
-    SessionNotFound404:
-      description: Session not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorInfo'
-          example:
-            status: 404
-            code: NOT_FOUND
-            message: Session Id does not exist
   securitySchemes:
     BearerAuth:
       type: http

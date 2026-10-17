@@ -136,12 +136,17 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ConnectionInformation:
+    RacmRequest:
       type: object
       properties:
-        clientId:
+        deviceId:
           type: string
-          description: The unique id assigned by WebRTC GW for identifying the association of device with WebRTC GW. The clients are required to include this value in clientId header.
+          description: The device-id of the client in UUID format.
+    NotificationChannelInformation:
+      properties:
+        channelURL:
+          type: string
+          description: The channel url which client need to use for WebSocket creation.
     ErrorInfo:
       type: object
       properties:
@@ -158,17 +163,6 @@ components:
       - status
       - code
       - message
-    RacmRequest:
-      type: object
-      properties:
-        deviceId:
-          type: string
-          description: The device-id of the client in UUID format.
-    NotificationChannelInformation:
-      properties:
-        channelURL:
-          type: string
-          description: The channel url which client need to use for WebSocket creation.
     RacmResponse:
       type: object
       properties:
@@ -179,6 +173,12 @@ components:
         resourceURL:
           type: string
           description: The resource URL allocated by WebRTC GW representing the RACM session created. The sessionId assigned for RACM session is part of the url.
+    ConnectionInformation:
+      type: object
+      properties:
+        clientId:
+          type: string
+          description: The unique id assigned by WebRTC GW for identifying the association of device with WebRTC GW. The clients are required to include this value in clientId header.
   responses:
     NotFound404:
       description: Session Not found
